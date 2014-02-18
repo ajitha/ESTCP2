@@ -1,0 +1,851 @@
+﻿<UserControl x:Class="display.update"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="848.5" d:DesignWidth="661.375">
+             <!--xmlns:local="clr-namespace:ESTCustomerProfiles">-->
+    <ScrollViewer>
+        <Grid Background="#f4f4f4" >
+
+
+
+            <Grid.ColumnDefinitions>
+
+
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="47*"/>
+                <ColumnDefinition Width="7*"/>
+                <ColumnDefinition Width="79*"/>
+
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="20"/>
+
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="17"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="17"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="17"/>
+
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+
+            </Grid.RowDefinitions>
+
+
+
+            <GridSplitter HorizontalAlignment="Center" 
+			VerticalAlignment="Stretch" Grid.Row="1"
+			Grid.Column="2" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="6" Margin="13,8,13,0"/>
+
+
+
+
+            <GridSplitter HorizontalAlignment="Stretch" 
+			VerticalAlignment="Top" 
+			Grid.ColumnSpan="4" ResizeBehavior="PreviousAndNext"
+			Height="2" Background="LightGray"
+			Grid.Row="7" Margin="0,14,0,0"/>
+
+
+            <GridSplitter HorizontalAlignment="Stretch" 
+			VerticalAlignment="Top" 
+			Grid.ColumnSpan="4" ResizeBehavior="BasedOnAlignment"
+			Height="2" Background="LightGray"
+			Grid.Row="10" />
+
+
+
+
+
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Basic Information" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.182"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Customer ID:" />
+            <TextBox x:Name="textbox_customerid" Grid.Row="2" Grid.Column="1"  Margin="3" TextChanged="textbox_customerid_TextChanged" />
+
+            <Label Grid.Row="3" Grid.Column="0" Content="Customer Name:"/>
+            <TextBox x:Name="textbox_customername" Grid.Row="3" Grid.Column="1"  Margin="3" />
+
+
+            <Label Grid.Row="4" Grid.Column="0" Content="Supported severities:"/>
+            <Grid Grid.Row="4" Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox x:Name="checkbox_sev1" Content="Sev.1" Grid.Column="0" Grid.Row="0" Margin="3"/>
+                <CheckBox x:Name="checkbox_sev2" Content="Sev.2" Grid.Column="1" Grid.Row="0" Margin="3"/>
+                <CheckBox x:Name="checkbox_sev3" Content="Sev.3" Grid.Column="0" Grid.Row="1" Margin="3"/>
+                <CheckBox x:Name="checkbox_sev4" Content="Sev.4" Grid.Column="1" Grid.Row="1" Margin="3"/>
+            </Grid>
+
+            <Grid Grid.Row ="2" Grid.Column="3" Grid.RowSpan="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Region" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="26" Grid.ColumnSpan="3"/>
+                <Label Content="Queue" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="26" Grid.ColumnSpan="3"/>
+                <!--<ComboBox x:Name="combobox_region" Grid.Column="2" Grid.Row="0"  Margin="3" Width="100" HorizontalAlignment="Left" ItemsSource="{Binding regioncbItems}" SelectedItem="{Binding SelectedRegion}" SelectionChanged="ComboBox_SelectionChanged"/>-->
+                <Grid Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" MinWidth="100"/>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="90"/>
+                        <ColumnDefinition Width="10"/>
+                    </Grid.ColumnDefinitions>
+                    <TextBox x:Name="textbox_region" Grid.Column="0" Width="auto" MinWidth="100" Margin="3"/>
+                    <Label Content="Offset" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
+                    <TextBox x:Name="textbox_offset" Grid.Column="2" Margin="3"/>
+                    
+                </Grid>
+                
+                <TextBox x:Name="textbox_queue" Grid.Row="1" Grid.Column="2" TextChanged="TextBox_TextChanged" Width="Auto" Margin="3" />
+            </Grid>
+
+
+            <Grid Grid.Row ="6" Grid.Column="0" Grid.ColumnSpan="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200*" />
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+
+
+
+                <Label Content="Support Keys" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                            <GradientStop Color="#FF7C3191" Offset="0.236"/>
+                            <GradientStop Offset="1" Color="#00AB3CC9"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <Label Content="Support Key" Grid.Row="1" Grid.Column="0" Background="#FFD0D1D7" Margin="3" FontWeight="Bold" Width="100"/>
+                <Label Content="Activity Description" Grid.Row="1" Grid.Column="1"   Background="White" Margin="3" FontWeight="Bold"/>
+
+                <Grid Background="White" Grid.Column="1" Grid.Row="1" Margin="119,3,3,3" Grid.ColumnSpan="2"></Grid>
+
+                <TextBox x:Name="textbox_key" Grid.Row="2" Grid.Column="0" Margin="3"/>
+                <TextBox x:Name="textbox_description" Grid.Row="2" Grid.Column="1"  Margin="3" />
+
+                <Button Name="btnAdd" Grid.Column="2" Grid.Row="2"  Click="btnAdd_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Add" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Right" Width="28"  >
+
+                </Button>
+
+
+
+
+                <ListBox x:Name="lstBxTask"  ItemsSource="{Binding Path=supportkeys}" BorderBrush="Transparent" Background="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid HorizontalAlignment="Stretch">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="Auto" />
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding key}"  Height="18" Background="#FFD0D1D7"  Margin="3" Width="100"/>
+                                <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding description}" Height="18" Background="White"  Margin="3" HorizontalAlignment="Stretch"  
+                                           Width="{Binding Path=ActualWidth, ElementName=textbox_description}"
+                                           />
+
+                                <Button Grid.Column="2" Grid.Row="0" Name="btnDelete" Click="btnDelete_Click" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" ></Button>
+
+
+                            </Grid>
+
+                            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" >
+                                <TextBlock Text="{Binding key}" Width="73" Height="18" Background="#FFD0D1D7"  Margin="3"/>
+                                <TextBlock Text="{Binding description}" Width="500" Height="18" Background="White"  Margin="3"/>
+
+                                <Button Name="btnDelete" Click="btnDelete_Click" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" Width="Auto" HorizontalAlignment="Right">
+                                    -->
+                            <!--<Image Source="Resources/2.png" Width="15" Height="15"/>-->
+                            <!--
+
+                                </Button>
+                            </StackPanel>-->
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </Grid>
+
+
+
+
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Content="Severity Actions"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.054"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+            <Grid Grid.ColumnSpan="4" Grid.Row="9" >
+
+                <ScrollViewer>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" MinHeight="70"/>
+                            <RowDefinition Height="Auto" MinHeight="70"/>
+                        </Grid.RowDefinitions>
+
+
+                        <!--<GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="2" ResizeBehavior="PreviousAndNext"
+			Width="1" Background="LightGray"
+			Grid.RowSpan="2"/>-->
+
+                        <GridSplitter HorizontalAlignment="Stretch" 
+			VerticalAlignment="Center" Grid.Row="1"
+			Grid.Column="0" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.ColumnSpan="4"/>
+
+                        <Label Content="Severity 1" Grid.Row="0" Grid.Column="0"/>
+                        <Label Content="Severity 2" Grid.Row="0" Grid.Column="2"/>
+                        <Label Content="Severity 3" Grid.Row="1" Grid.Column="0"/>
+                        <Label Content="Severity 4" Grid.Row="1" Grid.Column="2"/>
+
+                        <RichTextBox x:Name="richtext_sevaction1" Grid.Row="0" Grid.Column="1" Height="Auto" Margin="5"  VerticalScrollBarVisibility="Auto">
+                            <FlowDocument/>
+                        </RichTextBox>
+                        <RichTextBox x:Name="richtext_sevaction2" Grid.Row="0" Grid.Column="3" Height="Auto" Margin="5" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument/>
+                            <!--<Paragraph LineHeight="1"/>
+                                <Paragraph LineHeight="1"/>-->
+
+                        </RichTextBox>
+                        <RichTextBox x:Name="richtext_sevaction3" Grid.Row="1" Grid.Column="1" Height="Auto" Margin="5" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument/>
+                            <!--<Paragraph LineHeight="1">
+                                    <Run Text=""/>
+                                </Paragraph>
+                                <Paragraph LineHeight="1">
+                                    <Run/>
+                                </Paragraph>-->
+
+                        </RichTextBox>
+                        <RichTextBox x:Name="richtext_sevaction4" Grid.Row="1" Grid.Column="3" Block.LineHeight="1" Margin="5" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument/>
+                            <!--<FlowDocument>
+                                <Paragraph LineHeight="1"/>
+                            </FlowDocument>-->
+                        </RichTextBox>
+
+
+
+                    </Grid>
+                </ScrollViewer>
+
+            </Grid>
+
+
+            <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Content="Case Handling"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.186"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+            <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1">
+                <FlowDocument/>
+                    <!--<Paragraph LineHeight="1"/>
+                </FlowDocument>-->
+            </RichTextBox>
+
+
+            <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.186"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+
+            <!--customer contacts enter data-->
+            <Grid Grid.ColumnSpan="4" Grid.Row="15">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*" />
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="1" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+
+                <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="3" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+                <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="5" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+
+                <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="7" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+
+
+
+                <Label Content="Name" Grid.Column="0" Grid.Row="0" Margin="5"></Label>
+                <Label Content="Designation" Grid.Column="2" Grid.Row="0"></Label>
+                <Label Content="Email" Grid.Column="4" Grid.Row="0"></Label>
+                <Label Content="Work phone" Grid.Column="6" Grid.Row="0"></Label>
+                <Label Content="Mobile" Grid.Column="8" Grid.Row="0"></Label>
+
+
+                <TextBox x:Name="textbox_name"  Grid.Column="0" Grid.Row="1"></TextBox>
+                <TextBox x:Name="textbox_desingnation"  Grid.Column="2" Grid.Row="1"></TextBox>
+                <TextBox x:Name="textbox_email"  Grid.Column="4" Grid.Row="1"></TextBox>
+                <TextBox x:Name="textbox_workphone"  Grid.Column="6" Grid.Row="1"></TextBox>
+                <TextBox x:Name="textbox_mobile"  Grid.Column="8" Grid.Row="1"></TextBox>
+
+                <Button Name="btnAddContact" Grid.Column="9" Grid.Row="1"  Click="btnAddContact_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Add" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Right" Width="28" />
+
+
+                <ListBox x:Name="lstBxContacts"  ItemsSource="{Binding Path=customerinfos}" BorderBrush="Transparent" Background="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="11" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+
+                            <Grid >
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="1*"/>
+                                    <ColumnDefinition Width="Auto"/>
+
+                                </Grid.ColumnDefinitions>
+
+
+
+
+
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+
+
+
+
+                                <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding name}"  Height="18" Background="#FFD0D1D7"   Width="{Binding Path=ActualWidth, ElementName=textbox_name}"/>
+                                <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding designation}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_desingnation}"/>
+                                <TextBlock Grid.Column="4" Grid.Row="0" Text="{Binding email}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_email}"/>
+                                <TextBlock Grid.Column="6" Grid.Row="0" Text="{Binding workphone}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_workphone}"/>
+                                <TextBlock Grid.Column="8" Grid.Row="0" Text="{Binding mobile}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_mobile}"/>
+                                <Button Grid.Column="9" Grid.Row="0" Name="btnContactDelete" Click="btnContactDelete_Click_1" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" ></Button>
+
+
+                            </Grid>
+
+                            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" >
+                                <TextBlock Text="{Binding key}" Width="73" Height="18" Background="#FFD0D1D7"  Margin="3"/>
+                                <TextBlock Text="{Binding description}" Width="500" Height="18" Background="White"  Margin="3"/>
+
+                                <Button Name="btnDelete" Click="btnDelete_Click" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" Width="Auto" HorizontalAlignment="Right">
+                                    -->
+                            <!--<Image Source="Resources/2.png" Width="15" Height="15"/>-->
+                            <!--
+
+                                </Button>
+                            </StackPanel>-->
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+
+
+
+            </Grid>
+
+
+
+            <Button Name="btnSubmit" Grid.Column="0" Grid.Row="17"  Click="btnSubmit_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Submit" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Left" Width="Auto" />
+
+
+        </Grid>
+        <!--<Grid Background="#f4f4f4">
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="47*"/>
+            <ColumnDefinition Width="7*"/>
+            <ColumnDefinition Width="79*"/>
+        </Grid.ColumnDefinitions>
+
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="20"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="auto"/>
+            <RowDefinition Height="17"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="17"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="17"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <GridSplitter HorizontalAlignment="Center" 
+			VerticalAlignment="Stretch" Grid.Row="1"
+			Grid.Column="2" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="6" Margin="13,8,13,0"/>
+
+        <GridSplitter HorizontalAlignment="Stretch" 
+			VerticalAlignment="Top" 
+			Grid.ColumnSpan="4" ResizeBehavior="PreviousAndNext"
+			Height="2" Background="LightGray"
+			Grid.Row="7" Margin="0,14,0,0"/>
+
+        <GridSplitter HorizontalAlignment="Stretch" 
+			VerticalAlignment="Top" 
+			Grid.ColumnSpan="4" ResizeBehavior="BasedOnAlignment"
+			Height="2" Background="LightGray"
+			Grid.Row="10" />
+
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Basic Information" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.182"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+            <Label Grid.Row="2" Grid.Column="0" Content="Customer ID:" />
+            <TextBox Grid.Row="2" Grid.Column="1"  Margin="3" />
+
+            <Label Grid.Row="3" Grid.Column="0" Content="Customer Name:"/>
+            <TextBox Grid.Row="3" Grid.Column="1"  Margin="3" />
+
+
+            <Label Grid.Row="4" Grid.Column="0" Content="Supported severities:"/>
+            <Grid Grid.Row="4" Grid.Column="1">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <CheckBox Content="Sev.1" Grid.Column="0" Grid.Row="0" Margin="3"/>
+                <CheckBox Content="Sev.2" Grid.Column="1" Grid.Row="0" Margin="3"/>
+                <CheckBox Content="Sev.3" Grid.Column="0" Grid.Row="1" Margin="3"/>
+                <CheckBox Content="Sev.4" Grid.Column="1" Grid.Row="1" Margin="3"/>
+            </Grid>
+
+            <Grid Grid.Row ="2" Grid.Column="3" Grid.RowSpan="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="60"/>
+                    <ColumnDefinition Width="1"/>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="10"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Region" Grid.Column="0" Grid.Row="0" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="26" Grid.ColumnSpan="3"/>
+                <Label Content="Queue" Grid.Column="0" Grid.Row="1" HorizontalAlignment="Left"  VerticalAlignment="Top" Width="105" Height="26" Grid.ColumnSpan="3"/>
+                <ComboBox Grid.Column="2" Grid.Row="0"  SelectedIndex="0" Margin="3" Width="100" HorizontalAlignment="Left">
+                    <ComboBoxItem Content="SCAN DK"/>
+                    <ComboBoxItem/>
+                </ComboBox>
+                <TextBox Grid.Row="1" Grid.Column="2" TextChanged="TextBox_TextChanged" Width="Auto" Margin="3" />
+            </Grid>
+
+
+            <Grid Grid.Row ="6" Grid.Column="0" Grid.ColumnSpan="2">
+
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="200*" />
+                    <ColumnDefinition Width="Auto"/>
+
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label Content="Support Keys" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                    <Label.Background>
+                        <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                            <GradientStop Color="#FF7C3191" Offset="0.236"/>
+                            <GradientStop Offset="1" Color="#00AB3CC9"/>
+                        </LinearGradientBrush>
+                    </Label.Background>
+                </Label>
+                <Label Content="Support Key" Grid.Row="1" Grid.Column="0" Background="#FFD0D1D7" Margin="3" FontWeight="Bold" Width="100"/>
+                <Label Content="Activity Description" Grid.Row="1" Grid.Column="1"   Background="White" Margin="3" FontWeight="Bold"/>
+
+                <Grid Background="White" Grid.Column="1" Grid.Row="1" Margin="119,3,3,3" Grid.ColumnSpan="2"></Grid>
+
+                <TextBox x:Name="textbox_key" Grid.Row="2" Grid.Column="0" Margin="3"/>
+                <TextBox x:Name="textbox_description" Grid.Row="2" Grid.Column="1"  Margin="3" />
+
+                <Button Name="btnAdd" Grid.Column="2" Grid.Row="2"  Click="btnAdd_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Add" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Right" Width="28"  >
+
+                </Button>
+
+
+
+
+                <ListBox x:Name="lstBxTask"  ItemsSource="{Binding Path=supportkeys}" BorderBrush="Transparent" Background="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="4" >
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+
+                        <Grid HorizontalAlignment="Stretch">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding key}"  Height="18" Background="#FFD0D1D7"  Margin="3" Width="100"/>
+                            <TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding description}" Height="18" Background="White"  Margin="3" HorizontalAlignment="Stretch"  
+                                           Width="{Binding Path=ActualWidth, ElementName=textbox_description}"
+                                           />
+
+                            <Button Grid.Column="2" Grid.Row="0" Name="btnDelete" Click="btnDelete_Click" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" ></Button>
+
+
+                        </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+
+            </Grid>
+
+
+
+
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Content="Severity Actions"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.054"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+            <Grid Grid.ColumnSpan="4" Grid.Row="9" >
+
+                <ScrollViewer>
+                    <Grid >
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*" />
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="1*"/>
+
+                        </Grid.ColumnDefinitions>
+
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" MinHeight="70"/>
+                        <RowDefinition Height="Auto" MinHeight="70"/>
+                    </Grid.RowDefinitions>
+                        
+            <GridSplitter HorizontalAlignment="Stretch" 
+			VerticalAlignment="Center" Grid.Row="1"
+			Grid.Column="0" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.ColumnSpan="4"/>
+
+                        <Label Content="Severity 1" Grid.Row="0" Grid.Column="0"/>
+                        <Label Content="Severity 2" Grid.Row="0" Grid.Column="2"/>
+                        <Label Content="Severity 3" Grid.Row="1" Grid.Column="0"/>
+                        <Label Content="Severity 4" Grid.Row="1" Grid.Column="2"/>
+
+                        <RichTextBox Grid.Row="0" Grid.Column="1" Height="Auto" Margin="5"  VerticalScrollBarVisibility="Auto">
+                            <FlowDocument/>
+                        </RichTextBox>
+                        <RichTextBox Grid.Row="0" Grid.Column="3" Height="Auto" Margin="5" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <Paragraph LineHeight="1"/>
+                                <Paragraph LineHeight="1"/>
+                            </FlowDocument>
+                        </RichTextBox>
+                        <RichTextBox Grid.Row="1" Grid.Column="1" Height="Auto" Margin="5" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <Paragraph LineHeight="1">
+                                    <Run Text=""/>
+                                </Paragraph>
+                                <Paragraph LineHeight="1">
+                                    <Run/>
+                                </Paragraph>
+                            </FlowDocument>
+                        </RichTextBox>
+                        <RichTextBox Grid.Row="1" Grid.Column="3" Block.LineHeight="1" Margin="5" VerticalScrollBarVisibility="Auto">
+                            <FlowDocument>
+                                <Paragraph LineHeight="1"/>
+                            </FlowDocument>
+                        </RichTextBox>
+
+
+
+                    </Grid>
+                </ScrollViewer>
+
+            </Grid>
+
+
+            <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Content="Case Handling"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.186"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+            <RichTextBox Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1">
+                <FlowDocument>
+                    <Paragraph LineHeight="1"/>
+                </FlowDocument>
+            </RichTextBox>
+
+
+            <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" >
+                <Label.Background>
+                    <LinearGradientBrush EndPoint="1,1" StartPoint="0,0">
+                        <GradientStop Color="#FF7C3191" Offset="0.186"/>
+                        <GradientStop Offset="1" Color="#00AB3CC9"/>
+                    </LinearGradientBrush>
+                </Label.Background>
+            </Label>
+
+
+            --><!--customer contacts enter data--><!--
+        <Grid Grid.ColumnSpan="4" Grid.Row="15">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*" />
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="Auto"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="1" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+
+            <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="3" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+            <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="5" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+
+            <GridSplitter HorizontalAlignment="Left" 
+			VerticalAlignment="Stretch" Grid.Row="0"
+			Grid.Column="7" ResizeBehavior="PreviousAndNext"
+			Width="2" Background="LightGray"
+			Grid.RowSpan="1"/>
+
+
+
+            <Label Content="Name" Grid.Column="0" Grid.Row="0" Margin="5"></Label>
+            <Label Content="Designation" Grid.Column="2" Grid.Row="0"></Label>
+            <Label Content="Email" Grid.Column="4" Grid.Row="0"></Label>
+            <Label Content="Work phone" Grid.Column="6" Grid.Row="0"></Label>
+            <Label Content="Mobile" Grid.Column="8" Grid.Row="0"></Label>
+
+
+            <TextBox x:Name="textbox_name"  Grid.Column="0" Grid.Row="1"></TextBox>
+            <TextBox x:Name="textbox_desingnation"  Grid.Column="2" Grid.Row="1"></TextBox>
+            <TextBox x:Name="textbox_email"  Grid.Column="4" Grid.Row="1"></TextBox>
+            <TextBox x:Name="textbox_workphone"  Grid.Column="6" Grid.Row="1"></TextBox>
+            <TextBox x:Name="textbox_mobile"  Grid.Column="8" Grid.Row="1"></TextBox>
+
+            <Button Name="btnAddContact" Grid.Column="9" Grid.Row="1"  Click="btnAddContact_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Add" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Right" Width="28" />
+
+
+            <ListBox x:Name="lstBxContacts"  ItemsSource="{Binding Path=customerinfos}" BorderBrush="Transparent" Background="Transparent" Grid.Column="0" Grid.Row="3" Grid.ColumnSpan="11" >
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+
+                        <Grid >
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="Auto"/>
+
+                            </Grid.ColumnDefinitions>
+
+
+
+
+
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+
+
+
+                            <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding name}"  Height="18" Background="#FFD0D1D7"   Width="{Binding Path=ActualWidth, ElementName=textbox_name}"/>
+                            <TextBlock Grid.Column="2" Grid.Row="0" Text="{Binding designation}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_desingnation}"/>
+                            <TextBlock Grid.Column="4" Grid.Row="0" Text="{Binding email}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_email}"/>
+                            <TextBlock Grid.Column="6" Grid.Row="0" Text="{Binding workphone}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_workphone}"/>
+                            <TextBlock Grid.Column="8" Grid.Row="0" Text="{Binding mobile}" Height="18" Background="White"   Width="{Binding Path=ActualWidth, ElementName=textbox_mobile}"/>
+                            <Button Grid.Column="9" Grid.Row="0" Name="btnContactDelete" Click="btnContactDelete_Click_1" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" ></Button>
+
+
+                        </Grid>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+
+        </Grid>
+            <Button Name="btnSubmit" Grid.Column="0" Grid.Row="17"  Click="btnSubmit_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Submit" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Left" Width="Auto" />
+        </Grid>-->
+    </ScrollViewer>
+</UserControl>

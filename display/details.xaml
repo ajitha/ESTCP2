@@ -1,0 +1,53 @@
+﻿<UserControl x:Class="display.details"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="500" d:DesignWidth="500">
+    <Grid>
+        <ScrollViewer>
+            <Grid x:Name="Grid_details">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="500*"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <!--<RowDefinition Height="60"/>-->
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <TextBlock x:Name="label_name" Text="{Binding Path=Info}" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Margin="0" Background="White" Foreground="#FF4B385D" FontSize="34" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="1" Grid.RowSpan="4"/>
+
+                <Label x:Name="label_region" HorizontalAlignment="Center" Content="time at regional support" VerticalAlignment="Stretch" Grid.Row="0" Grid.RowSpan="1" Margin="0" Background="White" Foreground="#FF4B385D" FontSize="12" FontWeight="Light" Grid.Column="1" Grid.ColumnSpan="1" BorderThickness="1,0,0,0"/>
+                <Label x:Name="label_time" HorizontalAlignment="Center" VerticalAlignment="Stretch" Grid.Row="1" Grid.RowSpan="1" Margin="0" Background="White" Foreground="#FF4B385D" FontSize="30" FontWeight="Light" Grid.Column="1" Grid.ColumnSpan="1" BorderThickness="1,0,0,0"/>
+                <Label x:Name="label_date" HorizontalAlignment="Center" Content="03/01/2014" VerticalAlignment="Stretch" Grid.Row="2" Grid.RowSpan="1" Margin="0" Background="White" Foreground="#FF4B385D" FontSize="14" FontWeight="Light" Grid.Column="1" Grid.ColumnSpan="1" BorderThickness="1,0,0,0"/>
+                <Label x:Name="label_stat" HorizontalAlignment="Center" Content="offline" VerticalAlignment="Stretch" Grid.Row="3" Grid.RowSpan="1" Margin="0" Background="White" Foreground="#FF4B385D" FontSize="14" FontWeight="Light" Grid.Column="1" Grid.ColumnSpan="1" BorderThickness="1,0,0,1"/>
+
+                <Label x:Name="label_support" Content="Severities Supported" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="4" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2" />
+                <RichTextBox x:Name="richTextBox_sevSupp" Grid.Row="5" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2">
+                    
+                </RichTextBox>
+                <Label x:Name="label_severity" Content="Severity Actions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="6" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2" />
+                <RichTextBox x:Name="richTextBox_severities" Grid.Row="7" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2">
+                    
+                </RichTextBox>
+                <Label x:Name="label_keys" Content="Support Keys &amp; Queue Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="8" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2"/>
+                <RichTextBox x:Name="richTextBox_support" Grid.Row="9" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2">
+                    
+                </RichTextBox>
+                <Label x:Name="label_last" Content="Support Action" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="10" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2" />
+            </Grid>
+        </ScrollViewer>
+    </Grid>
+</UserControl>
