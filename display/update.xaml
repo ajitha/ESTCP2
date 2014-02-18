@@ -85,8 +85,21 @@
             </Label>
 
             <Label Grid.Row="2" Grid.Column="0" Content="Customer ID:" />
-            <TextBox x:Name="textbox_customerid" Grid.Row="2" Grid.Column="1"  Margin="3" TextChanged="textbox_customerid_TextChanged" />
+            
 
+            <Grid Grid.Column="1" Grid.Row="2">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="textbox_customerid" Grid.Row="0" Grid.Column="0"  Margin="3" TextChanged="textbox_customerid_TextChanged" />
+                <Grid Grid.Column="1" Grid.Row="0">
+                    <Image x:Name="image_tick" Source="Resources/tick.png" Width="25" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-2,0,2" Visibility="Collapsed"/>
+                </Grid>
+            </Grid>
+            
             <Label Grid.Row="3" Grid.Column="0" Content="Customer Name:"/>
             <TextBox x:Name="textbox_customername" Grid.Row="3" Grid.Column="1"  Margin="3" />
 

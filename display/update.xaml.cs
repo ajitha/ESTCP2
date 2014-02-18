@@ -548,10 +548,15 @@ namespace display
         //new mod
         private void textbox_customerid_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (existingCustIDs.Contains(textbox_customerid.Text)) {
-                MessageBox.Show("user in :D");
+            if (existingCustIDs.Contains(textbox_customerid.Text))
+            {
+                image_tick.Visibility = System.Windows.Visibility.Visible;
 
             }
+            else {
+                image_tick.Visibility = System.Windows.Visibility.Collapsed;
+            }
+            
         }
         //public ObservableCollection<SupportKey> supportkeys { get; set; }
         //public ObservableCollection<CustomerInfo> customerinfos { get; set; }

@@ -200,6 +200,8 @@
     <Content Include="ESTProfiles.mdb">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\tick.png" />
+    <Resource Include="Resources\ok.png" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="obj\Debug\" />
