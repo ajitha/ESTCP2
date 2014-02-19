@@ -71,22 +71,22 @@ namespace display
                 doc = Contacts(customer.Contacts);
                 this.richTextBox_contacts.Document = doc;
 
-                StringReader sr = new StringReader(customer.Guidelines);
-                XmlReader reader = XmlReader.Create(sr);
-                Section sec = (Section)XamlReader.Load(reader);
-                FlowDocument d = new FlowDocument();
+                //StringReader sr = new StringReader(customer.Guidelines);
+                //XmlReader reader = XmlReader.Create(sr);
+                //Section sec = (Section)XamlReader.Load(reader);
+                //FlowDocument d = new FlowDocument();
 
 
 
 
 
-                while (sec.Blocks.Count > 0)
-                {
-                    var block = sec.Blocks.FirstBlock;
-                    sec.Blocks.Remove(block);
-                    d.Blocks.Add(block);
-                }
-                this.richTextBox_guidelines.Document = d;
+                //while (sec.Blocks.Count > 0)
+                //{
+                //    var block = sec.Blocks.FirstBlock;
+                //    sec.Blocks.Remove(block);
+                //    d.Blocks.Add(block);
+                //}
+                //this.richTextBox_guidelines.Document = d;
                 
 
                 //new mod
@@ -98,6 +98,7 @@ namespace display
             
 
         }
+       
 
         //new mod
         private void HandleRequestNavigate(object sender, RoutedEventArgs args)
@@ -106,7 +107,19 @@ namespace display
                 Process.Start(((RequestNavigateEventArgs)args).Uri.ToString());
         }
 
-
+        public void Richtext(FlowDocument d, string content, string title)
+        {
+            StringReader sr = new StringReader(content);
+            XmlReader reader = XmlReader.Create(sr);
+            Section sec = (Section)XamlReader.Load(reader);
+            while (sec.Blocks.Count > 0)
+            {
+                var block = sec.Blocks.FirstBlock;
+                sec.Blocks.Remove(block);
+                d.Blocks.Add(new List(new ListItem(new Paragraph(new Run(title)))));
+                d.Blocks.Add(block);
+            }
+        }
 
         public FlowDocument Severities(List<string> severities)
         {
@@ -132,18 +145,36 @@ namespace display
         {
             FlowDocument doc = new FlowDocument();
             List list = new List();
+
             if (!String.IsNullOrEmpty(actions.action1))
             {
-               Paragraph  para = new Paragraph(new Run("Severity 1: " + actions.action1));
-               list.ListItems.Add(new ListItem(para)); 
-               //doc.Blocks.Add(para);
+                //doc.Blocks.Add(new List(new ListItem(new Paragraph(new Run("Severity 1: ")))));
+                //doc.Blocks.Add(list);
+                //list.ListItems.Add(new ListItem(Richtext(doc, guideline)));
+                Richtext(doc, actions.action1, "Severity 1: ");
+
             }
             if (!String.IsNullOrEmpty(actions.action2))
             {
-                Paragraph para = new Paragraph(new Run("Severity 2: " + actions.action2));
-                list.ListItems.Add(new ListItem(para)); 
-                //doc.Blocks.Add(para);
+                //doc.Blocks.Add(new List(new ListItem(new Paragraph(new Run("Severity 1: ")))));
+                //doc.Blocks.Add(list);
+                //list.ListItems.Add(new ListItem(Richtext(doc, guideline)));
+                Richtext(doc, actions.action1, "Severity 2: ");
+
             }
+
+            //if (!String.IsNullOrEmpty(actions.action1))
+            //{
+            //   Paragraph  para = new Paragraph(new Run("Severity 1: " + actions.action1));
+            //   list.ListItems.Add(new ListItem(para)); 
+            //   //doc.Blocks.Add(para);
+            //}
+            //if (!String.IsNullOrEmpty(actions.action2))
+            //{
+            //    Paragraph para = new Paragraph(new Run("Severity 2: " + actions.action2));
+            //    list.ListItems.Add(new ListItem(para)); 
+            //    //doc.Blocks.Add(para);
+            //}
             if (!String.IsNullOrEmpty(actions.action3))
             {
                 Paragraph para = new Paragraph(new Run("Severity 3: " + actions.action3));

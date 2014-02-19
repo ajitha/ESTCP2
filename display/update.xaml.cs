@@ -226,7 +226,14 @@ namespace display
             return cmd;
         }
 
-
+        public string ConvertToXaml(RichTextBox rtb)
+        {
+            TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            MemoryStream ms = new MemoryStream();
+            tr.Save(ms, DataFormats.Xaml);
+            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray()); 
+            return xamlText;
+        }
 
 
         public List<OleDbCommand> SaveContacts()
@@ -301,10 +308,10 @@ namespace display
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = strAccessInsert;
             cmd.Parameters.AddWithValue("@custid", textbox_customerid.Text);
-            cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
-            cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
-            cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
-            cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
 
             cmd.Connection = myAccessConn;
 
@@ -593,39 +600,48 @@ namespace display
         private void textbox_key_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             string text = textbox_key.Text;
-            int key = int.Parse(text);
-
-            //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
-            var x = customer.Supports.Where(m => m.supportKey == key).FirstOrDefault();
-            if (x != null)
+            if (!String.IsNullOrEmpty(text))
             {
-                textbox_description.Text = x.description;
+                int key = int.Parse(text);
+
+                //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
+                var x = customer.Supports.Where(m => m.supportKey == key).FirstOrDefault();
+                if (x != null)
+                {
+                    textbox_description.Text = x.description;
+                }
             }
+            
 
         }
 
         private void textbox_name_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             string text = textbox_name.Text;
+            if (!String.IsNullOrEmpty(text)) 
+            {
+                var x = customer.Contacts.Where(m => m.name == text).FirstOrDefault();
+                if (x != null)
+                {
+                    //textbox_desingnation.Text = x.designation;
+                    List<string> desginations = new List<string>();
+                    foreach (var i in customer.Contacts.Where(m => m.name == x.name))
+                    {
+                        desginations.Add(i.designation);
+                    }
+
+                    textbox_desingnation.ItemsSource = desginations;
+                    textbox_email.Text = x.email;
+                    textbox_mobile.Text = x.mobile;
+                    textbox_workphone.Text = x.workPhone;
+                }
+            }
+        }
             //var split = text.Split(new char[] { '(' }, 2);
             //text = split[0];
 
             //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
-            var x = customer.Contacts.Where(m => m.name == text).FirstOrDefault();
-            if (x != null)
-            {
-                textbox_desingnation.Text = x.designation;
-                List<string> desginations = new List<string>();
-                foreach (var i in customer.Contacts.Where(m => m.name == x.name))
-                {
-                    desginations.Add(i.designation);
-                }
-
-                textbox_desingnation.ItemsSource = desginations;
-                textbox_email.Text = x.email;
-                textbox_mobile.Text = x.mobile;
-                textbox_workphone.Text = x.workPhone;
-            }
+            
             //public ObservableCollection<SupportKey> supportkeys { get; set; }
             //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
 
@@ -721,7 +737,7 @@ namespace display
             //{
 
             //}
-        }
+        
     }
 
 }
