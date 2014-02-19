@@ -120,6 +120,7 @@ namespace display
                 contact.designation = reader["designation"].ToString();
                 contact.email = reader["email"].ToString();
                 contact.workPhone = reader["workphone"].ToString();
+                contact.mobile = reader["mobile"].ToString();
                 contact.additionalInfo = reader["additionalInfo"].ToString();
                 customer.Contacts.Add(contact);
             }

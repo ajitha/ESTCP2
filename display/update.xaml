@@ -96,7 +96,7 @@
 
                 <TextBox x:Name="textbox_customerid" Grid.Row="0" Grid.Column="0"  Margin="3" TextChanged="textbox_customerid_TextChanged" />
                 <Grid Grid.Column="1" Grid.Row="0">
-                    <Image x:Name="image_tick" Source="Resources/tick.png" Width="25" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-2,0,2" Visibility="Collapsed"/>
+                    <Image x:Name="image_tick" Source="Resources/tick.png" Width="25" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-2,0,2" Visibility="Collapsed" ToolTip="Customer already in database"/>
                 </Grid>
             </Grid>
             
@@ -189,7 +189,7 @@
 
                 <Grid Background="White" Grid.Column="1" Grid.Row="1" Margin="119,3,3,3" Grid.ColumnSpan="2"></Grid>
 
-                <TextBox x:Name="textbox_key" Grid.Row="2" Grid.Column="0" Margin="3"/>
+                <TextBox x:Name="textbox_key" Grid.Row="2" Grid.Column="0" Margin="3" PreviewTextInput="textbox_key_PreviewTextInput" DataObject.Pasting="PastingHandler"/>
                 <TextBox x:Name="textbox_description" Grid.Row="2" Grid.Column="1"  Margin="3" />
 
                 <Button Name="btnAdd" Grid.Column="2" Grid.Row="2"  Click="btnAdd_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Add" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Right" Width="28"  >
@@ -314,6 +314,7 @@
                                 <Paragraph LineHeight="1"/>
                             </FlowDocument>-->
                         </RichTextBox>
+                        
 
 
 
@@ -473,7 +474,7 @@
 
 
 
-            <Button Name="btnSubmit" Grid.Column="0" Grid.Row="17"  Click="btnSubmit_Click"  Background="Transparent" BorderBrush="Transparent"  Content="Submit" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Left" Width="Auto" />
+            <Button Name="btnSubmit" Grid.Column="0" Grid.Row="17"  Click="btnSubmit_Click"   BorderBrush="#FF7777E8"  Content="Add new Customer" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Left" Width="Auto" Height="30"/>
 
 
         </Grid>

@@ -16,6 +16,10 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using display.ViewModel;
 using System.IO;
+using display.Model;
+using System.Xml;
+using System.Windows.Markup;
+using System.Text.RegularExpressions;
 
 namespace display
 {
@@ -297,10 +301,42 @@ namespace display
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = strAccessInsert;
             cmd.Parameters.AddWithValue("@custid", textbox_customerid.Text);
-            cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
-            cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
-            cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
-            cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
+            
+            
+            //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
+
+            TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
+            MemoryStream ms = new MemoryStream();
+            tr.Save(ms, DataFormats.Xaml);
+            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
+            cmd.Parameters.AddWithValue("@action1", xamlText);
+
+
+            
+            //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
+
+            TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
+            MemoryStream ms2 = new MemoryStream();
+            tr2.Save(ms2, DataFormats.Xaml);
+            string xamlText2 = ASCIIEncoding.Default.GetString(ms2.ToArray());
+            cmd.Parameters.AddWithValue("@action2", xamlText2);
+            
+            //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
+            
+            TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
+            MemoryStream ms3 = new MemoryStream();
+            tr3.Save(ms3, DataFormats.Xaml);
+            string xamlText3 = ASCIIEncoding.Default.GetString(ms3.ToArray());
+            cmd.Parameters.AddWithValue("@action3", xamlText3);
+            
+            
+            //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
+            TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
+            MemoryStream ms4 = new MemoryStream();
+            tr4.Save(ms4, DataFormats.Xaml);
+            string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
+            cmd.Parameters.AddWithValue("@action4", xamlText4);
+
 
             cmd.Connection = myAccessConn;
 
@@ -537,6 +573,9 @@ namespace display
             Access ac = new Access();
             namesVM n = new namesVM();
             Common.list = n.Names;
+
+            existingCustIDs = access.GetIDs();
+
         }
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -551,13 +590,151 @@ namespace display
             if (existingCustIDs.Contains(textbox_customerid.Text))
             {
                 image_tick.Visibility = System.Windows.Visibility.Visible;
+                btnSubmit.Content = "Update";
+                
+                CustomerVM cvm = new CustomerVM(textbox_customerid.Text);
+
+
+                textbox_customername.Text = cvm.Customer.customerName;
+                textbox_offset.Text = cvm.Customer.offset.ToString();
+                if (cvm.Support.FirstOrDefault() != null) {
+                    textbox_queue.Text = cvm.Support.FirstOrDefault().queue;
+                }
+                
+                textbox_region.Text = cvm.Customer.spptOrganization;
+
+
+                //supported seveirities
+                //ICollection<Supported_Severity> ssList = cvm.Customer.Supported_Severities;
+                foreach(string ss in cvm.Severities){
+
+                    switch (ss) { 
+                        case "1" :
+                            checkbox_sev1.IsChecked = true;
+                            break;
+                        case "2":
+                            checkbox_sev2.IsChecked = true;
+                            break;
+                        case "3":
+                            checkbox_sev3.IsChecked = true;
+                            break;
+                        case "4":
+                            checkbox_sev4.IsChecked = true;
+                            break;
+                        default:
+                            break;
+                    
+                    }
+                }
+
+
+                //support keys
+                foreach (Support sk in cvm.Support) {
+                    supportkeys.Add(new SupportKey(sk.supportKey.ToString(), sk.description));
+                }
+
+                //guidelines
+                setRichText(richtextbox_guidelines,cvm.Guidelines);
+
+
+                //sev actions
+                setRichText(richtext_sevaction1, cvm.Actions.action1);
+                setRichText(richtext_sevaction2, cvm.Actions.action2);
+                setRichText(richtext_sevaction3, cvm.Actions.action3);
+                setRichText(richtext_sevaction4, cvm.Actions.action4);
+                
+                //contacts
+                foreach (Contact contact in cvm.Contacts) {
+                    customerinfos.Add(new CustomerInfo(contact.name, contact.designation, contact.email, contact.workPhone, contact.mobile));
+                    
+                }
+
 
             }
             else {
                 image_tick.Visibility = System.Windows.Visibility.Collapsed;
+                ClearAllFields();
             }
             
         }
+
+        public void ClearAllFields() {
+            textbox_customername.Text = "";
+            textbox_offset.Text = "";
+
+            textbox_queue.Text = "";
+            
+
+            textbox_region.Text = "";
+
+
+            checkbox_sev1.IsChecked = false;
+
+            checkbox_sev2.IsChecked = false;
+
+            checkbox_sev3.IsChecked = false;
+
+            checkbox_sev4.IsChecked = false;
+
+
+            supportkeys.Clear();
+
+            richtextbox_guidelines.Document.Blocks.Clear();
+
+            richtext_sevaction1.Document.Blocks.Clear();
+            richtext_sevaction2.Document.Blocks.Clear();
+            richtext_sevaction3.Document.Blocks.Clear();
+            richtext_sevaction4.Document.Blocks.Clear();
+
+
+            customerinfos.Clear();
+
+
+            btnSubmit.Content = "Add new customer";
+        }
+
+
+
+        public void setRichText(RichTextBox rtb, string txt) {
+
+            StringReader sr = new StringReader(txt);
+            XmlReader reader = XmlReader.Create(sr);
+            Section sec = (Section)XamlReader.Load(reader);
+            FlowDocument d = new FlowDocument();
+
+
+            while (sec.Blocks.Count > 0)
+            {
+                var block = sec.Blocks.FirstBlock;
+                sec.Blocks.Remove(block);
+                d.Blocks.Add(block);
+            }
+            rtb.Document = d;
+        
+        }
+
+        private void textbox_key_PreviewTextInput(object sender, TextCompositionEventArgs e)
+        {
+            e.Handled = !IsTextAllowed(e.Text);
+
+        }
+
+        private static bool IsTextAllowed(string text)
+        {
+            Regex regex = new Regex("[^0-9]"); //regex that matches disallowed text
+            return !regex.IsMatch(text);
+        }
+
+        private void PastingHandler(object sender, DataObjectPastingEventArgs e)
+        {
+            if (e.DataObject.GetDataPresent(typeof(String)))
+            {
+                String text = (String)e.DataObject.GetData(typeof(String));
+                if (!IsTextAllowed(text)) e.CancelCommand();
+            }
+            else e.CancelCommand();
+        }
+
         //public ObservableCollection<SupportKey> supportkeys { get; set; }
         //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
 

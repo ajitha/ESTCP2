@@ -33,11 +33,28 @@ namespace display.ViewModel
             _support = _customer.Supports.ToList();
             foreach (Supported_Severity i in _sev)
             {
+
+
                 severities.Add(i.severity.ToString());
             }
             if (_customer.Guideline == null)
             {
-                _guidelines = "Guidelines are not given";
+
+                RichTextBox rtb = new RichTextBox();
+                rtb.Document.Blocks.Clear();
+                rtb.Document.Blocks.Add(new Paragraph(new Run("Guidelines are not given")));
+
+                //workaround
+                TextRange tr4 = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+                MemoryStream ms4 = new MemoryStream();
+                tr4.Save(ms4, DataFormats.Xaml);
+                string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
+
+
+                _guidelines = xamlText4;
+
+
+
             }
             else
             {
