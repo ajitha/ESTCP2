@@ -216,12 +216,18 @@ namespace display
             //cmd.Parameters.AddWithValue("@guidelines", new TextRange(richtextbox_guidelines.Document.ContentStart, richtextbox_guidelines.Document.ContentEnd).Text);
 
 
-            TextRange tr = new TextRange(richtextbox_guidelines.Document.ContentStart,
-                                richtextbox_guidelines.Document.ContentEnd);
-            MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Xaml);
-            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
+            //TextRange tr = new TextRange(richtextbox_guidelines.Document.ContentStart,
+            //                    richtextbox_guidelines.Document.ContentEnd);
+            //MemoryStream ms = new MemoryStream();
+            //tr.Save(ms, DataFormats.Xaml);
+            //string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
+            //cmd.Parameters.AddWithValue("@guidelines", xamlText);
+
+            string xamlText = ConvertToXaml(richtextbox_guidelines);
             cmd.Parameters.AddWithValue("@guidelines", xamlText);
+
+
+
             //openDatabaseConnection();
             cmd.Connection = myAccessConn;
             //cmd.ExecuteNonQuery();
@@ -233,8 +239,12 @@ namespace display
         public string ConvertToXaml(RichTextBox rtb)
         {
             TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+
+            
+
+
             MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Xaml);
+            tr.Save(ms, DataFormats.Rtf);
             string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray()); 
             return xamlText;
         }
@@ -317,39 +327,50 @@ namespace display
             
             //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
 
-            TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
-            MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Xaml);
-            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
-            cmd.Parameters.AddWithValue("@action1", xamlText);
+            //TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
+            //MemoryStream ms = new MemoryStream();
+            //tr.Save(ms, DataFormats.Xaml);
+            //string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
+            //cmd.Parameters.AddWithValue("@action1", xamlText);
 
-
+            string xamltxt1 = ConvertToXaml(richtext_sevaction1);
+            cmd.Parameters.AddWithValue("@action1", xamltxt1);
             
             //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
 
-            TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
-            MemoryStream ms2 = new MemoryStream();
-            tr2.Save(ms2, DataFormats.Xaml);
-            string xamlText2 = ASCIIEncoding.Default.GetString(ms2.ToArray());
+            //TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
+            //MemoryStream ms2 = new MemoryStream();
+            //tr2.Save(ms2, DataFormats.Xaml);
+            //string xamlText2 = ASCIIEncoding.Default.GetString(ms2.ToArray());
+            //cmd.Parameters.AddWithValue("@action2", xamlText2);
+
+            string xamlText2 = ConvertToXaml(richtext_sevaction2);
             cmd.Parameters.AddWithValue("@action2", xamlText2);
-            
+
             //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
             
-            TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
-            MemoryStream ms3 = new MemoryStream();
-            tr3.Save(ms3, DataFormats.Xaml);
-            string xamlText3 = ASCIIEncoding.Default.GetString(ms3.ToArray());
+            //TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
+            //MemoryStream ms3 = new MemoryStream();
+            //tr3.Save(ms3, DataFormats.Xaml);
+            //string xamlText3 = ASCIIEncoding.Default.GetString(ms3.ToArray());
+            //cmd.Parameters.AddWithValue("@action3", xamlText3);
+
+
+            string xamlText3 = ConvertToXaml(richtext_sevaction3);
             cmd.Parameters.AddWithValue("@action3", xamlText3);
-            
-            
+
+
+
             //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
-            TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
-            MemoryStream ms4 = new MemoryStream();
-            tr4.Save(ms4, DataFormats.Xaml);
-            string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
+            //TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
+            //MemoryStream ms4 = new MemoryStream();
+            //tr4.Save(ms4, DataFormats.Xaml);
+            //string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
+            //cmd.Parameters.AddWithValue("@action4", xamlText4);
+
+
+            string xamlText4 = ConvertToXaml(richtext_sevaction4);
             cmd.Parameters.AddWithValue("@action4", xamlText4);
-
-
             //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
             //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
             //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
@@ -819,26 +840,42 @@ namespace display
 
         public void setRichText(RichTextBox rtb, string txt) {
 
-            StringReader sr = new StringReader(txt);
-            XmlReader reader = XmlReader.Create(sr);
-            Section sec = (Section)XamlReader.Load(reader);
-            FlowDocument d = new FlowDocument();
+            //StringReader sr = new StringReader(txt);
+            //XmlReader reader = XmlReader.Create(sr);
+            //Section sec = (Section)XamlReader.Load(reader);
+            //FlowDocument d = new FlowDocument();
 
 
-            while (sec.Blocks.Count > 0)
-            {
-                var block = sec.Blocks.FirstBlock;
-                sec.Blocks.Remove(block);
-                d.Blocks.Add(block);
-            }
-            rtb.Document = d;
+            //while (sec.Blocks.Count > 0)
+            //{
+            //    var block = sec.Blocks.FirstBlock;
+            //    sec.Blocks.Remove(block);
+            //    d.Blocks.Add(block);
+            //}
+            //rtb.Document = d;
+
+
+            MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
+            rtb.Selection.Load(stream, DataFormats.Rtf);
         
         }
 
         private void textbox_key_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-            e.Handled = !IsTextAllowed(e.Text);
+//            e.Handled = !IsTextAllowed(e.Text);
+            e.Handled = !AreAllValidNumericChars(e.Text);
+            base.OnPreviewTextInput(e);
 
+        }
+
+        private bool AreAllValidNumericChars(string str)
+        {
+            foreach (char c in str)
+            {
+                if (!Char.IsNumber(c)) return false;
+            }
+
+            return true;
         }
 
         private static bool IsTextAllowed(string text)
@@ -846,6 +883,10 @@ namespace display
             Regex regex = new Regex("[^0-9]"); //regex that matches disallowed text
             return !regex.IsMatch(text);
         }
+
+
+
+
 
         private void PastingHandler(object sender, DataObjectPastingEventArgs e)
         {
