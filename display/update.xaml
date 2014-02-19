@@ -76,7 +76,7 @@
 
 
 
-            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Basic Information" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF5B5776" />
+            <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Basic Information" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
 
             <Label Grid.Row="2" Grid.Column="0" Content="Customer ID:" />
 
@@ -170,7 +170,7 @@
 
 
 
-                <Label Content="Support Keys" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF5B5776" />
+                <Label Content="Support Keys" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
                 <Label Content="Support Key" Grid.Row="1" Grid.Column="0" Background="#FFD0D1D7" Margin="3" FontWeight="Bold" Width="100"/>
                 <Label Content="Activity Description" Grid.Row="1" Grid.Column="1"   Background="White" Margin="3" FontWeight="Bold"/>
 
@@ -236,7 +236,7 @@
 
 
 
-            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Content="Severity Actions"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF5B5776" />
+            <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Content="Severity Actions"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
 
             <Grid Grid.ColumnSpan="4" Grid.Row="9" >
 
@@ -308,7 +308,7 @@
             </Grid>
 
 
-            <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Content="Case Handling"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF5B5776" />
+            <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Content="Case Handling"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
 
             <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1">
                 <FlowDocument/>
@@ -317,7 +317,7 @@
             </RichTextBox>
 
 
-            <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF5B5776" />
+            <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
 
 
             <!--customer contacts enter data-->
