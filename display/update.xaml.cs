@@ -312,7 +312,7 @@ namespace display
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = strAccessInsert;
             cmd.Parameters.AddWithValue("@custid", textbox_customerid.Text);
-<<<<<<< HEAD
+
             
             
             //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
@@ -349,12 +349,12 @@ namespace display
             string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
             cmd.Parameters.AddWithValue("@action4", xamlText4);
 
-=======
+
             //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
             //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
             //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
             //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
->>>>>>> 2bdd3c0427f77bbbef78ff6eaab78f671657e699
+
 
             cmd.Connection = myAccessConn;
 
@@ -687,21 +687,81 @@ namespace display
 
         private void textbox_customerid_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
+
             string text = textbox_customerid.Text;
             Access ac = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
             customer = ac.GetInfo(text);
-            textbox_customername.Text = customer.customerName;
-            textbox_offset.Text = customer.offset.ToString();
-            textbox_region.Text = customer.spptOrganization;
-            textbox_queue.Text = customer.Supports.FirstOrDefault().queue;
-            List<string> names = new List<string>();
-            foreach (var i in customer.Contacts.Distinct())
-            {
-                names.Add(i.name/* + " (" + i.designation + ")"*/);
-            }
-            textbox_name.ItemsSource = names;
 
+            if (customer != null)
+            {
+                
+                if (customer.Contacts.Count > 0)
+                {
+                    List<string> names = new List<string>();
+                    foreach (var i in customer.Contacts.Distinct())
+                    {
+                        names.Add(i.name);
+                    }
+                    textbox_name.ItemsSource = names;
+
+
+
+                }
+            }
+
+
+            if (!existingCustIDs.Contains(textbox_customerid.Text))
+            {
+                textbox_customername.Text = customer.customerName;
+                textbox_offset.Text = customer.offset.ToString();
+                textbox_region.Text = customer.spptOrganization;
+                if (customer.Supports.Count > 0)
+                {
+                    textbox_queue.Text = customer.Supports.FirstOrDefault().queue;
+                }
+            }
         }
+
+
+        private void textbox_customerid_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                string text = textbox_customerid.Text;
+                Access ac = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+                customer = ac.GetInfo(text);
+
+                if (customer != null)
+                {
+
+                    if (customer.Contacts.Count > 0)
+                    {
+                        List<string> names = new List<string>();
+                        foreach (var i in customer.Contacts.Distinct())
+                        {
+                            names.Add(i.name);
+                        }
+                        textbox_name.ItemsSource = names;
+
+
+
+                    }
+                }
+
+
+                if (!existingCustIDs.Contains(textbox_customerid.Text))
+                {
+                    textbox_customername.Text = customer.customerName;
+                    textbox_offset.Text = customer.offset.ToString();
+                    textbox_region.Text = customer.spptOrganization;
+                    if (customer.Supports.Count > 0)
+                    {
+                        textbox_queue.Text = customer.Supports.FirstOrDefault().queue;
+                    }
+                }
+            }
+        }
+
 
         private void textbox_key_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -709,18 +769,16 @@ namespace display
             if (!String.IsNullOrEmpty(text))
             {
                 int key = int.Parse(text);
-
-                //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
                 var x = customer.Supports.Where(m => m.supportKey == key).FirstOrDefault();
                 if (x != null)
                 {
                     textbox_description.Text = x.description;
                 }
             }
-            
-
         }
-<<<<<<< HEAD
+
+
+
 
         public void ClearAllFields() {
             textbox_customername.Text = "";
@@ -801,8 +859,7 @@ namespace display
 
         //public ObservableCollection<SupportKey> supportkeys { get; set; }
         //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
-=======
->>>>>>> 2bdd3c0427f77bbbef78ff6eaab78f671657e699
+
 
         private void textbox_name_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
@@ -826,6 +883,34 @@ namespace display
                 }
             }
         }
+
+        private void textbox_name_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            if (!String.IsNullOrEmpty(textbox_name.Text)) {
+                string text = textbox_name.Text;
+                if (!String.IsNullOrEmpty(text))
+                {
+                    var x = customer.Contacts.Where(m => m.name == text).FirstOrDefault();
+                    if (x != null)
+                    {
+                        //textbox_desingnation.Text = x.designation;
+                        List<string> desginations = new List<string>();
+                        foreach (var i in customer.Contacts.Where(m => m.name == x.name))
+                        {
+                            desginations.Add(i.designation);
+                        }
+
+                        textbox_desingnation.ItemsSource = desginations;
+                        textbox_email.Text = x.email;
+                        textbox_mobile.Text = x.mobile;
+                        textbox_workphone.Text = x.workPhone;
+                    }
+                }
+            }
+
+        }
+
+        
             //var split = text.Split(new char[] { '(' }, 2);
             //text = split[0];
 
