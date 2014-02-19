@@ -16,7 +16,7 @@ namespace display.ViewModel
         }
         private List<string> names;
         private string username;
-        Access access = new Access();
+        Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB");
 
         public List<string> Names
         {
