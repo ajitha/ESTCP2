@@ -15,6 +15,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using display.ViewModel;
+using display.Model;
 using System.IO;
 using display.Model;
 using System.Xml;
@@ -41,10 +42,10 @@ namespace display
 
 
         //new mod
-        Access access = new Access();
+        Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB");
         public static List<string> existingCustIDs;
         //////////////////////
-  
+
         public update()
         {
             //svm = new SupportKeyVM ();
@@ -75,18 +76,20 @@ namespace display
             regioncbItems.Add(new ComboBoxItem { Content = "Option 2" });
 
 
-           // combobox_region.Text = "Option 1";
+            // combobox_region.Text = "Option 1";
             //combobox_region.SelectedItem = "Option 1";
 
-            foreach (ComboBoxItem cbi in regioncbItems){
-                if (cbi.Content == "Option 2") {
+            foreach (ComboBoxItem cbi in regioncbItems)
+            {
+                if (cbi.Content == "Option 2")
+                {
                     SelectedRegion = cbi;
                 }
             }
-            
+
             InitializeComponent();
         }
-
+        static Customer customer = new Customer();
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -227,7 +230,14 @@ namespace display
             return cmd;
         }
 
-
+        public string ConvertToXaml(RichTextBox rtb)
+        {
+            TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
+            MemoryStream ms = new MemoryStream();
+            tr.Save(ms, DataFormats.Xaml);
+            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray()); 
+            return xamlText;
+        }
 
 
         public List<OleDbCommand> SaveContacts()
@@ -245,7 +255,7 @@ namespace display
                 cmd.Parameters.AddWithValue("@name", ci.name);
                 cmd.Parameters.AddWithValue("@designation", ci.designation);
                 cmd.Parameters.AddWithValue("@email", ci.email);
-                cmd.Parameters.AddWithValue("@workphone",ci.workphone);
+                cmd.Parameters.AddWithValue("@workphone", ci.workphone);
                 cmd.Parameters.AddWithValue("@mobile", ci.mobile);
 
                 //openDatabaseConnection();
@@ -270,7 +280,8 @@ namespace display
             List<OleDbCommand> cmdlist = new List<OleDbCommand>();
 
 
-            foreach (SupportKey sk in supportkeys) {
+            foreach (SupportKey sk in supportkeys)
+            {
                 string strAccessInsert = "INSERT INTO Support(customerId,supportKey,description,queue) VALUES (@custid,@spptkey,@desc,@queue)";
                 OleDbCommand cmd = new OleDbCommand();
                 cmd.CommandType = CommandType.Text;
@@ -283,14 +294,14 @@ namespace display
                 cmd.Connection = myAccessConn;
 
                 cmdlist.Add(cmd);
-                
+
             }
 
 
             return cmdlist;
 
 
-            
+
         }
 
         public OleDbCommand SaveSeverityActions()
@@ -301,6 +312,7 @@ namespace display
             cmd.CommandType = CommandType.Text;
             cmd.CommandText = strAccessInsert;
             cmd.Parameters.AddWithValue("@custid", textbox_customerid.Text);
+<<<<<<< HEAD
             
             
             //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
@@ -337,13 +349,19 @@ namespace display
             string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
             cmd.Parameters.AddWithValue("@action4", xamlText4);
 
+=======
+            //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
+            //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
+>>>>>>> 2bdd3c0427f77bbbef78ff6eaab78f671657e699
 
             cmd.Connection = myAccessConn;
 
 
             return cmd;
 
-            
+
         }
 
 
@@ -351,7 +369,8 @@ namespace display
         {
             List<OleDbCommand> cmdlist = new List<OleDbCommand>();
 
-            if (checkbox_sev1.IsChecked==true) {
+            if (checkbox_sev1.IsChecked == true)
+            {
                 string strAccessInsert = "INSERT INTO SupportedSeverities(customerId,severity) VALUES (@custid,@severity)";
                 OleDbCommand cmd = new OleDbCommand();
                 cmd.CommandType = CommandType.Text;
@@ -405,21 +424,22 @@ namespace display
             }
 
 
-            return cmdlist ;
+            return cmdlist;
         }
 
-        public void DeleteCustmerFromdb(String customerId) {
+        public void DeleteCustmerFromdb(String customerId)
+        {
 
 
 
             openDatabaseConnection();
-            
+
             OleDbCommand cmd = new OleDbCommand();
             cmd.CommandType = CommandType.Text;
             cmd.Connection = myAccessConn;
 
 
-            cmd.CommandText = "DELETE FROM Customer WHERE (customerId='" + customerId + "')"; ; 
+            cmd.CommandText = "DELETE FROM Customer WHERE (customerId='" + customerId + "')"; ;
             cmd.ExecuteNonQuery();
 
             cmd.CommandText = "DELETE FROM Guidelines WHERE (customerId='" + customerId + "')"; ;
@@ -442,12 +462,13 @@ namespace display
 
             myAccessConn.Close();
 
-        
+
         }
 
 
 
-        public void AddCustomer() {
+        public void AddCustomer()
+        {
 
             List<OleDbCommand> cmdstoexe = new List<OleDbCommand>();
             openDatabaseConnection();
@@ -484,7 +505,8 @@ namespace display
         }
 
 
-        public bool IsCustomerExisting() {
+        public bool IsCustomerExisting()
+        {
 
             OleDbCommand cmd = new OleDbCommand();
             cmd.CommandType = CommandType.Text;
@@ -505,19 +527,22 @@ namespace display
             {
                 myDataAdapter.Fill(ds, "Customer");
             }
-            catch (Exception e) {
+            catch (Exception e)
+            {
                 MessageBox.Show(e.ToString());
             }
 
 
             //customer already exist in the database
-            if (ds.Tables["Customer"].Rows.Count == 1) {
+            if (ds.Tables["Customer"].Rows.Count == 1)
+            {
                 //MessageBox.Show("Customer already exist in the database!! Handle!!");
                 return true;
             }
 
             //add new customer to the database
-            else{
+            else
+            {
                 return false;
             }
 
@@ -525,7 +550,8 @@ namespace display
         }
 
 
-        public void openDatabaseConnection() {
+        public void openDatabaseConnection()
+        {
             try
             {
                 myAccessConn = new OleDbConnection(strAccessConn);
@@ -570,7 +596,7 @@ namespace display
                 AddCustomer();
 
             }
-            Access ac = new Access();
+            //Access ac = new Access();
             namesVM n = new namesVM();
             Common.list = n.Names;
 
@@ -651,12 +677,50 @@ namespace display
 
 
             }
-            else {
+            else
+            {
                 image_tick.Visibility = System.Windows.Visibility.Collapsed;
                 ClearAllFields();
             }
-            
+
         }
+
+        private void textbox_customerid_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            string text = textbox_customerid.Text;
+            Access ac = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+            customer = ac.GetInfo(text);
+            textbox_customername.Text = customer.customerName;
+            textbox_offset.Text = customer.offset.ToString();
+            textbox_region.Text = customer.spptOrganization;
+            textbox_queue.Text = customer.Supports.FirstOrDefault().queue;
+            List<string> names = new List<string>();
+            foreach (var i in customer.Contacts.Distinct())
+            {
+                names.Add(i.name/* + " (" + i.designation + ")"*/);
+            }
+            textbox_name.ItemsSource = names;
+
+        }
+
+        private void textbox_key_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            string text = textbox_key.Text;
+            if (!String.IsNullOrEmpty(text))
+            {
+                int key = int.Parse(text);
+
+                //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
+                var x = customer.Supports.Where(m => m.supportKey == key).FirstOrDefault();
+                if (x != null)
+                {
+                    textbox_description.Text = x.description;
+                }
+            }
+            
+
+        }
+<<<<<<< HEAD
 
         public void ClearAllFields() {
             textbox_customername.Text = "";
@@ -737,98 +801,132 @@ namespace display
 
         //public ObservableCollection<SupportKey> supportkeys { get; set; }
         //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
+=======
+>>>>>>> 2bdd3c0427f77bbbef78ff6eaab78f671657e699
 
-        //public update()
-        //{
-        //    this.DataContext = this;
-        //    supportkeys = new ObservableCollection<SupportKey>();
-        //    customerinfos = new ObservableCollection<CustomerInfo>();
+        private void textbox_name_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            string text = textbox_name.Text;
+            if (!String.IsNullOrEmpty(text)) 
+            {
+                var x = customer.Contacts.Where(m => m.name == text).FirstOrDefault();
+                if (x != null)
+                {
+                    //textbox_desingnation.Text = x.designation;
+                    List<string> desginations = new List<string>();
+                    foreach (var i in customer.Contacts.Where(m => m.name == x.name))
+                    {
+                        desginations.Add(i.designation);
+                    }
 
-        //    InitializeComponent();
-        //}
+                    textbox_desingnation.ItemsSource = desginations;
+                    textbox_email.Text = x.email;
+                    textbox_mobile.Text = x.mobile;
+                    textbox_workphone.Text = x.workPhone;
+                }
+            }
+        }
+            //var split = text.Split(new char[] { '(' }, 2);
+            //text = split[0];
 
-
-        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        //{
-
-        //}
-
-        //private void btnDelete_Click(object sender, RoutedEventArgs e)
-        //{
-        //    var button = sender as Button;
-        //    if (button != null)
-        //    {
-        //        var skey = button.DataContext as SupportKey;
-        //        supportkeys.Remove(skey);
-        //    }
-        //    else
-        //    {
-        //        return;
-        //    }
-        //}
-
-        //private void Button_Click(object sender, RoutedEventArgs e)
-        //{
-        //}
-
-        //private void btnAdd_Click(object sender, RoutedEventArgs e)
-        //{
-        //    SupportKey sk = new SupportKey(textbox_key.Text, textbox_description.Text);
-
-        //    if (textbox_key.Text != "" && textbox_description.Text != "")
-        //    {
-        //        supportkeys.Add(sk);
-        //        textbox_key.Text = "";
-        //        textbox_description.Text = "";
-
-        //    }
-
-
-        //}
-
-        //private void btnCOntactDelete_Click(object sender, RoutedEventArgs e)
-        //{
-
-        //}
-
-        //private void btnAddContact_Click(object sender, RoutedEventArgs e)
-        //{
-
+            //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
             
-        //    CustomerInfo custtemp = new CustomerInfo(textbox_name.Text, textbox_desingnation.Text,textbox_email.Text, textbox_workphone.Text , textbox_mobile.Text );
+            //public ObservableCollection<SupportKey> supportkeys { get; set; }
+            //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
 
-        //    if (textbox_name.Text != "" )
-        //    {
+            //public update()
+            //{
+            //    this.DataContext = this;
+            //    supportkeys = new ObservableCollection<SupportKey>();
+            //    customerinfos = new ObservableCollection<CustomerInfo>();
 
-        //        customerinfos.Add(custtemp);
+            //    InitializeComponent();
+            //}
 
-        //        textbox_name.Text = "";
-        //        textbox_desingnation.Text = "";
-        //        textbox_email.Text = "";
-        //        textbox_workphone.Text = "";
-        //        textbox_mobile.Text = "";
-                
 
-        //    }
-        //}
+            //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+            //{
 
-        //private void btnContactDelete_Click_1(object sender, RoutedEventArgs e)
-        //{
-        //    var button = sender as Button;
-        //    if (button != null)
-        //    {
-        //        var customerinfotemp = button.DataContext as CustomerInfo;
-        //        customerinfos.Remove(customerinfotemp);
-        //    }
-        //    else
-        //    {
-        //        return;
-        //    }
-        //}
+            //}
 
-        //private void btnSubmit_Click(object sender, RoutedEventArgs e)
-        //{
+            //private void btnDelete_Click(object sender, RoutedEventArgs e)
+            //{
+            //    var button = sender as Button;
+            //    if (button != null)
+            //    {
+            //        var skey = button.DataContext as SupportKey;
+            //        supportkeys.Remove(skey);
+            //    }
+            //    else
+            //    {
+            //        return;
+            //    }
+            //}
 
-        //}
+            //private void Button_Click(object sender, RoutedEventArgs e)
+            //{
+            //}
+
+            //private void btnAdd_Click(object sender, RoutedEventArgs e)
+            //{
+            //    SupportKey sk = new SupportKey(textbox_key.Text, textbox_description.Text);
+
+            //    if (textbox_key.Text != "" && textbox_description.Text != "")
+            //    {
+            //        supportkeys.Add(sk);
+            //        textbox_key.Text = "";
+            //        textbox_description.Text = "";
+
+            //    }
+
+
+            //}
+
+            //private void btnCOntactDelete_Click(object sender, RoutedEventArgs e)
+            //{
+
+            //}
+
+            //private void btnAddContact_Click(object sender, RoutedEventArgs e)
+            //{
+
+
+            //    CustomerInfo custtemp = new CustomerInfo(textbox_name.Text, textbox_desingnation.Text,textbox_email.Text, textbox_workphone.Text , textbox_mobile.Text );
+
+            //    if (textbox_name.Text != "" )
+            //    {
+
+            //        customerinfos.Add(custtemp);
+
+            //        textbox_name.Text = "";
+            //        textbox_desingnation.Text = "";
+            //        textbox_email.Text = "";
+            //        textbox_workphone.Text = "";
+            //        textbox_mobile.Text = "";
+
+
+            //    }
+            //}
+
+            //private void btnContactDelete_Click_1(object sender, RoutedEventArgs e)
+            //{
+            //    var button = sender as Button;
+            //    if (button != null)
+            //    {
+            //        var customerinfotemp = button.DataContext as CustomerInfo;
+            //        customerinfos.Remove(customerinfotemp);
+            //    }
+            //    else
+            //    {
+            //        return;
+            //    }
+            //}
+
+            //private void btnSubmit_Click(object sender, RoutedEventArgs e)
+            //{
+
+            //}
+        
     }
+
 }

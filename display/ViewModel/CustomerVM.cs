@@ -148,7 +148,7 @@ namespace display.ViewModel
 
         public Customer Search(string searchString)
         {
-            Access access = new Access();
+            Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB");
 
             Customer customer = new Customer();
             if (!String.IsNullOrEmpty(searchString))

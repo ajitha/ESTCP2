@@ -11,14 +11,15 @@ namespace display
 {
     class Access
     {
-        public Access(){
+        public Access(string connectionString)
+        {
             //string connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=|DataDirectory|\\ESTProfiles.mdb";
             //string connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.mdb";
 
 #if USINGPROJECTSYSTEM
 		string connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=..\\..\\profiles.MDB";
 #else
-        string connString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB";
+            string connString = connectionString;
 #endif
 
             this.conn = new OleDbConnection(connString);
@@ -169,6 +170,51 @@ namespace display
                 customer.Supported_Severities.Add(supported_sev);
             }
             
+            return customer;
+        }
+
+        public Customer GetInfo(string id)
+        {
+            if (conn.State == System.Data.ConnectionState.Closed)
+            {
+                conn.Open();
+            }
+            OleDbDataReader reader;
+
+            reader = ReadData("select * from Customer where customerId = '" + id + "'", "Customer");
+            Customer customer = new Customer();
+            while (reader.Read())
+            {
+                customer.customerName = reader["customerName"].ToString();
+                customer.spptOrganization = reader["suppOrg"].ToString();
+                customer.offset = decimal.Parse(reader["offset"].ToString());
+                customer.customerId = reader["customerId"].ToString();
+            }
+
+            reader = ReadData("select * from Support where customerId = '" + id + "'", "Support");
+            while (reader.Read())
+            {
+                Support support = new Support();
+                support.supportKey = int.Parse(reader["supportKey"].ToString());
+                support.customerId = reader["customerId"].ToString();
+                support.description = reader["description"].ToString();
+                support.queue = reader["queue"].ToString();
+                customer.Supports.Add(support);
+            }
+            reader = ReadData("select * from Contacts where customerId = '" + id + "'", "Contacts");
+            while (reader.Read())
+            {
+                Contact contact = new Contact();
+                contact.contactId = int.Parse(reader["contactId"].ToString());
+                contact.customerId = reader["customerId"].ToString();
+                contact.name = reader["customerName"].ToString();
+                contact.designation = reader["designation"].ToString();
+                contact.email = reader["email"].ToString();
+                contact.workPhone = reader["workPhone"].ToString();
+                contact.mobile = reader["mobile"].ToString();
+                customer.Contacts.Add(contact);
+            }
+
             return customer;
         }
     }
