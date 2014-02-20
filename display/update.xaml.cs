@@ -226,12 +226,15 @@ namespace display
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             TextRange tr = new TextRange(richtextbox_guidelines.Document.ContentStart,
                                 richtextbox_guidelines.Document.ContentEnd);
             MemoryStream ms = new MemoryStream();
             tr.Save(ms, DataFormats.Rtf);
             string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
 =======
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             //TextRange tr = new TextRange(richtextbox_guidelines.Document.ContentStart,
             //                    richtextbox_guidelines.Document.ContentEnd);
             //MemoryStream ms = new MemoryStream();
@@ -240,6 +243,9 @@ namespace display
             //cmd.Parameters.AddWithValue("@guidelines", xamlText);
 
             string xamlText = ConvertToXaml(richtextbox_guidelines);
+<<<<<<< HEAD
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+=======
 >>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             cmd.Parameters.AddWithValue("@guidelines", xamlText);
 
@@ -345,6 +351,7 @@ namespace display
             //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
             MemoryStream ms = new MemoryStream();
             tr.Save(ms, DataFormats.Rtf);
@@ -352,11 +359,16 @@ namespace display
             cmd.Parameters.AddWithValue("@action1", xamlText);
 
 =======
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             //TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
             //MemoryStream ms = new MemoryStream();
             //tr.Save(ms, DataFormats.Xaml);
             //string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
             //cmd.Parameters.AddWithValue("@action1", xamlText);
+<<<<<<< HEAD
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+=======
 >>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
 
             string xamltxt1 = ConvertToXaml(richtext_sevaction1);
@@ -365,11 +377,14 @@ namespace display
             //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
 
 <<<<<<< HEAD
+<<<<<<< HEAD
             TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
             MemoryStream ms2 = new MemoryStream();
             tr2.Save(ms2, DataFormats.Rtf);
             string xamlText2 = ASCIIEncoding.Default.GetString(ms2.ToArray());
 =======
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             //TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
             //MemoryStream ms2 = new MemoryStream();
             //tr2.Save(ms2, DataFormats.Xaml);
@@ -377,17 +392,23 @@ namespace display
             //cmd.Parameters.AddWithValue("@action2", xamlText2);
 
             string xamlText2 = ConvertToXaml(richtext_sevaction2);
+<<<<<<< HEAD
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+=======
 >>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             cmd.Parameters.AddWithValue("@action2", xamlText2);
 
             //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
             
 <<<<<<< HEAD
+<<<<<<< HEAD
             TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
             MemoryStream ms3 = new MemoryStream();
             tr3.Save(ms3, DataFormats.Rtf);
             string xamlText3 = ASCIIEncoding.Default.GetString(ms3.ToArray());
 =======
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             //TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
             //MemoryStream ms3 = new MemoryStream();
             //tr3.Save(ms3, DataFormats.Xaml);
@@ -396,6 +417,9 @@ namespace display
 
 
             string xamlText3 = ConvertToXaml(richtext_sevaction3);
+<<<<<<< HEAD
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+=======
 >>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             cmd.Parameters.AddWithValue("@action3", xamlText3);
 
@@ -403,17 +427,23 @@ namespace display
 
             //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
 <<<<<<< HEAD
+<<<<<<< HEAD
             TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
             MemoryStream ms4 = new MemoryStream();
             tr4.Save(ms4, DataFormats.Rtf);
             string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
             cmd.Parameters.AddWithValue("@action4", xamlText4);
 =======
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             //TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
             //MemoryStream ms4 = new MemoryStream();
             //tr4.Save(ms4, DataFormats.Xaml);
             //string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
             //cmd.Parameters.AddWithValue("@action4", xamlText4);
+<<<<<<< HEAD
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+=======
 >>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
 
 
@@ -889,7 +919,10 @@ namespace display
         public void setRichText(RichTextBox rtb, string txt) {
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             //StringReader sr = new StringReader(txt);
             //XmlReader reader = XmlReader.Create(sr);
             //Section sec = (Section)XamlReader.Load(reader);
@@ -905,6 +938,9 @@ namespace display
             //rtb.Document = d;
 
 
+<<<<<<< HEAD
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+=======
 >>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
             MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
             rtb.Selection.Load(stream, DataFormats.Rtf);
@@ -916,7 +952,20 @@ namespace display
 //            e.Handled = !IsTextAllowed(e.Text);
             e.Handled = !AreAllValidNumericChars(e.Text);
             base.OnPreviewTextInput(e);
+<<<<<<< HEAD
 
+        }
+
+        private bool AreAllValidNumericChars(string str)
+        {
+            foreach (char c in str)
+            {
+                if (!Char.IsNumber(c)) return false;
+            }
+=======
+>>>>>>> a4f5f727c777ca8c2590a78bac3e8b132aa9f80c
+
+            return true;
         }
 
         private bool AreAllValidNumericChars(string str)
