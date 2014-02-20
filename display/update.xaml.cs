@@ -86,10 +86,19 @@ namespace display
                     SelectedRegion = cbi;
                 }
             }
-
+            access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+            regions = access.GetRegions();
+            List<string> organizations = new List<string>();
+            foreach (var i in regions)
+            {
+                organizations.Add(i[0].ToString());
+            }
             InitializeComponent();
+            this.textbox_region.ItemsSource = organizations;
+
         }
         static Customer customer = new Customer();
+        static List<List<string>> regions;
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -219,7 +228,7 @@ namespace display
             TextRange tr = new TextRange(richtextbox_guidelines.Document.ContentStart,
                                 richtextbox_guidelines.Document.ContentEnd);
             MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Xaml);
+            tr.Save(ms, DataFormats.Rtf);
             string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
             cmd.Parameters.AddWithValue("@guidelines", xamlText);
             //openDatabaseConnection();
@@ -319,7 +328,7 @@ namespace display
 
             TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
             MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Xaml);
+            tr.Save(ms, DataFormats.Rtf);
             string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
             cmd.Parameters.AddWithValue("@action1", xamlText);
 
@@ -329,7 +338,7 @@ namespace display
 
             TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
             MemoryStream ms2 = new MemoryStream();
-            tr2.Save(ms2, DataFormats.Xaml);
+            tr2.Save(ms2, DataFormats.Rtf);
             string xamlText2 = ASCIIEncoding.Default.GetString(ms2.ToArray());
             cmd.Parameters.AddWithValue("@action2", xamlText2);
             
@@ -337,7 +346,7 @@ namespace display
             
             TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
             MemoryStream ms3 = new MemoryStream();
-            tr3.Save(ms3, DataFormats.Xaml);
+            tr3.Save(ms3, DataFormats.Rtf);
             string xamlText3 = ASCIIEncoding.Default.GetString(ms3.ToArray());
             cmd.Parameters.AddWithValue("@action3", xamlText3);
             
@@ -345,7 +354,7 @@ namespace display
             //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
             TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
             MemoryStream ms4 = new MemoryStream();
-            tr4.Save(ms4, DataFormats.Xaml);
+            tr4.Save(ms4, DataFormats.Rtf);
             string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
             cmd.Parameters.AddWithValue("@action4", xamlText4);
 
@@ -819,19 +828,8 @@ namespace display
 
         public void setRichText(RichTextBox rtb, string txt) {
 
-            StringReader sr = new StringReader(txt);
-            XmlReader reader = XmlReader.Create(sr);
-            Section sec = (Section)XamlReader.Load(reader);
-            FlowDocument d = new FlowDocument();
-
-
-            while (sec.Blocks.Count > 0)
-            {
-                var block = sec.Blocks.FirstBlock;
-                sec.Blocks.Remove(block);
-                d.Blocks.Add(block);
-            }
-            rtb.Document = d;
+            MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
+            rtb.Selection.Load(stream, DataFormats.Rtf);
         
         }
 
@@ -908,6 +906,56 @@ namespace display
                 }
             }
 
+        }
+
+        
+        private void textbox_region_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            //Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+            //List<List<string>> regions = access.GetRegions();
+            // List<string> organizations = new List<string>();
+            //foreach (var i in regions)
+            //{
+            //    organizations.Add(i[0].ToString());
+            //}
+            //textbox_region.ItemsSource = organizations;
+        }
+
+        private void textbox_region_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            //if (textbox_region.Text != null)
+            //{
+            //    List<string> list = regions.Find(m => m[0] == textbox_region.Text);
+            //    if (list != null)
+            //    {
+            //        textbox_offset.Text = list[1];
+            //    }
+            //}
+
+        }
+
+        private void textbox_region_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            if (textbox_region.Text != null)
+            {
+                List<string> list = regions.Find(m => m[0] == textbox_region.Text);
+                if (list != null)
+                {
+                    textbox_offset.Text = list[1];
+                }
+            }
+        }
+
+        private void textbox_region_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (textbox_region.Text != null)
+            //{
+            //    List<string> list = regions.Find(m => m[0] == textbox_region.Text);
+            //    if (list != null)
+            //    {
+            //        textbox_offset.Text = list[1];
+            //    }
+            //}
         }
 
         

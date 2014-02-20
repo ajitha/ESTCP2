@@ -92,7 +92,10 @@ namespace display
                 //new mod
                 richTextBox_guidelines.IsDocumentEnabled = true;
                 richTextBox_guidelines.AddHandler(Hyperlink.RequestNavigateEvent, new RoutedEventHandler(this.HandleRequestNavigate));
-
+                FlowDocument d = new FlowDocument();
+                Richtext(d, customer.Guidelines, null);
+                richTextBox_guidelines.Document = d;
+                
                 //richTextBox_guidelines.Inlines.Add(XamlReader.Parse(customer.Guidelines) as Inline);
             }
             
@@ -107,19 +110,19 @@ namespace display
                 Process.Start(((RequestNavigateEventArgs)args).Uri.ToString());
         }
 
-        public void Richtext(FlowDocument d, string content, string title)
-        {
-            StringReader sr = new StringReader(content);
-            XmlReader reader = XmlReader.Create(sr);
-            Section sec = (Section)XamlReader.Load(reader);
-            while (sec.Blocks.Count > 0)
-            {
-                var block = sec.Blocks.FirstBlock;
-                sec.Blocks.Remove(block);
-                d.Blocks.Add(new List(new ListItem(new Paragraph(new Run(title)))));
-                d.Blocks.Add(block);
-            }
-        }
+        //public void Richtext(FlowDocument d, string content, string title)
+        //{
+        //    StringReader sr = new StringReader(content);
+        //    XmlReader reader = XmlReader.Create(sr);
+        //    Section sec = (Section)XamlReader.Load(reader);
+        //    while (sec.Blocks.Count > 0)
+        //    {
+        //        var block = sec.Blocks.FirstBlock;
+        //        sec.Blocks.Remove(block);
+        //        d.Blocks.Add(new List(new ListItem(new Paragraph(new Run(title)))));
+        //        d.Blocks.Add(block);
+        //    }
+        //}
 
         public FlowDocument Severities(List<string> severities)
         {
@@ -140,62 +143,39 @@ namespace display
             doc.Blocks.Add(list);
             return doc;
         }
-        
+
+        public void Richtext(FlowDocument d, string content, string title)
+        {
+            d.Blocks.Add(new List(new ListItem(new Paragraph(new Run(title)))));
+            MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(content));
+            TextRange textRange = new TextRange(d.ContentEnd, d.ContentEnd);
+            textRange.Load(stream, DataFormats.Rtf);
+        }
+
         public FlowDocument SevActions(Severity_Action actions)
         {
             FlowDocument doc = new FlowDocument();
-            List list = new List();
-
             if (!String.IsNullOrEmpty(actions.action1))
             {
-                //doc.Blocks.Add(new List(new ListItem(new Paragraph(new Run("Severity 1: ")))));
-                //doc.Blocks.Add(list);
-                //list.ListItems.Add(new ListItem(Richtext(doc, guideline)));
                 Richtext(doc, actions.action1, "Severity 1: ");
-
             }
             if (!String.IsNullOrEmpty(actions.action2))
             {
-                //doc.Blocks.Add(new List(new ListItem(new Paragraph(new Run("Severity 1: ")))));
-                //doc.Blocks.Add(list);
-                //list.ListItems.Add(new ListItem(Richtext(doc, guideline)));
-                Richtext(doc, actions.action1, "Severity 2: ");
-
+                Richtext(doc, actions.action2, "Severity 2: ");
             }
-
-            //if (!String.IsNullOrEmpty(actions.action1))
-            //{
-            //   Paragraph  para = new Paragraph(new Run("Severity 1: " + actions.action1));
-            //   list.ListItems.Add(new ListItem(para)); 
-            //   //doc.Blocks.Add(para);
-            //}
-            //if (!String.IsNullOrEmpty(actions.action2))
-            //{
-            //    Paragraph para = new Paragraph(new Run("Severity 2: " + actions.action2));
-            //    list.ListItems.Add(new ListItem(para)); 
-            //    //doc.Blocks.Add(para);
-            //}
             if (!String.IsNullOrEmpty(actions.action3))
             {
-                Paragraph para = new Paragraph(new Run("Severity 3: " + actions.action3));
-                list.ListItems.Add(new ListItem(para));
-                //doc.Blocks.Add(para);
+                Richtext(doc, actions.action3, "Severity 3: ");
             }
             if (!String.IsNullOrEmpty(actions.action4))
             {
-                Paragraph para = new Paragraph(new Run("Severity 4: " + actions.action4));
-                list.ListItems.Add(new ListItem(para)); 
-                //doc.Blocks.Add(para);
+                Richtext(doc, actions.action4, "Severity 4: ");
             }
             if (!String.IsNullOrEmpty(actions.additionalInfo))
             {
-                Paragraph para = new Paragraph(new Run("Additional Information: " + actions.additionalInfo));
-                list.ListItems.Add(new ListItem(para)); 
-                //doc.Blocks.Add(para);
+                Richtext(doc, actions.additionalInfo, "Additional Information: ");
             }
-            doc.Blocks.Add(list);
             return doc;
-            
         }
 
         public FlowDocument Support(string suppOrg, List<Support> support)
