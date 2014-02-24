@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 using display.ViewModel;
 using display.Model;
 using System.IO;
-using display.Model;
 using System.Xml;
 using System.Windows.Markup;
 using System.Text.RegularExpressions;
@@ -197,7 +196,7 @@ namespace display
             string offset = textbox_offset.Text;
             if (String.IsNullOrEmpty(textbox_offset.Text))
             {
-                offset = "0";
+                offset = "-50";
             }
             cmd.Parameters.AddWithValue("@offset", Convert.ToDecimal(offset));
 
@@ -235,14 +234,27 @@ namespace display
             return cmd;
         }
 
+
         public string ConvertToXaml(RichTextBox rtb)
         {
             TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
-            MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Rtf);
-            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
-            return xamlText;
+
+            var start = rtb.Document.ContentStart;
+            var end = rtb.Document.ContentEnd;
+            int difference = start.GetOffsetToPosition(end);
+            string text = "";
+            if (difference > 4)
+            {
+                MemoryStream ms = new MemoryStream();
+                string x = tr.Text;
+                Console.WriteLine(x);
+                tr.Save(ms, DataFormats.Rtf);
+                text = ASCIIEncoding.Default.GetString(ms.ToArray());
+            }
+            return text;
+
         }
+
 
 
         public List<OleDbCommand> SaveContacts()
@@ -794,8 +806,12 @@ namespace display
 
         public void setRichText(RichTextBox rtb, string txt)
         {
-            MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
-            rtb.Selection.Load(stream, DataFormats.Rtf);
+            if (!String.IsNullOrEmpty(txt))
+            {
+                MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
+                rtb.Selection.Load(stream, DataFormats.Rtf);
+            }
+            
         }
 
         private void textbox_key_PreviewTextInput(object sender, TextCompositionEventArgs e)

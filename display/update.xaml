@@ -150,7 +150,7 @@
                 <TextBox x:Name="textbox_queue" Grid.Row="1" Grid.Column="2" TextChanged="TextBox_TextChanged" Width="Auto" Margin="3" />
             </Grid>
 
-            <Grid Grid.Row ="4" Grid.Column="3" Grid.RowSpan="2">
+            <!--<Grid Grid.Row ="4" Grid.Column="3" Grid.RowSpan="2">
                 <StackPanel Orientation="Horizontal">
                     <TextBox x:Name="txtNum" x:FieldModifier="private"  Width="40" Text="0" TextChanged="txtNum_TextChanged"  />
 
@@ -162,7 +162,7 @@
                       
                 </StackPanel>
 
-            </Grid>
+            </Grid>-->
 
 
 
@@ -290,10 +290,10 @@
                         <Label Content="Severity 4" Grid.Row="1" Grid.Column="2"/>
 
                         <RichTextBox x:Name="richtext_sevaction1" Grid.Row="0" Grid.Column="1" Height="Auto" Margin="5"  VerticalScrollBarVisibility="Auto">
-                            <FlowDocument/>
+                            <!--<FlowDocument/>-->
                         </RichTextBox>
                         <RichTextBox x:Name="richtext_sevaction2" Grid.Row="0" Grid.Column="3" Height="Auto" Margin="5" VerticalScrollBarVisibility="Auto">
-                            <FlowDocument/>
+                            <!--<FlowDocument/>-->
                             <!--<Paragraph LineHeight="1"/>
                                 <Paragraph LineHeight="1"/>-->
 
@@ -326,11 +326,7 @@
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Content="Case Handling"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
 
-            <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1">
-                <FlowDocument/>
-                <!--<Paragraph LineHeight="1"/>
-                </FlowDocument>-->
-            </RichTextBox>
+            <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1"/>
 
 
             <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />

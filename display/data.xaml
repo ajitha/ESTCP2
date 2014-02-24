@@ -37,7 +37,7 @@
                     <Button x:Name="button_search" Content="Search" Width="60" Height="30" VerticalAlignment="Center" HorizontalAlignment="Center" Background="White" BorderBrush="#FF3F3A5D" FontSize="18" Foreground="#FF3D2F5B" Click="ButtonClick" RenderTransformOrigin="0.804,0.438" Canvas.Right="-324" Canvas.Top="10" Canvas.Left="25"/>
                 </Canvas>-->
                 <Grid Grid.Row="1" Grid.RowSpan="4" VerticalAlignment="Center" Height="57">
-                    <TextBlock x:Name="label_name" Text="{Binding Path=Info}" TextWrapping="Wrap" HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Margin="0" Background="White" Foreground="#FF4B385D" FontSize="34" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="1"  Grid.Row="1" Grid.RowSpan="4"/>
+                    <TextBlock x:Name="label_name" Text="{Binding Path=Info}" TextWrapping="WrapWithOverflow"  HorizontalAlignment="Stretch" VerticalAlignment="Stretch"  Margin="0" Background="White" Foreground="#FF4B385D" FontSize="34" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="1"  Grid.Row="1" Grid.RowSpan="4"/>
                     <!--<TextBlock VerticalAlignment="Bottom">
                         <Hyperlink NavigateUri="{Binding Path=DocPath}">
                             Document
@@ -54,14 +54,46 @@
                 <RichTextBox x:Name="richTextBox_sevSupp" Grid.Row="6" Padding="10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2"/>
 
                 <Label x:Name="label_actions" Content="Severity Actions" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="7" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2" />
-                <RichTextBox x:Name="richTextBox_actions" Grid.Row="8" Padding="10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2"/>
+                <!--<RichTextBox x:Name="richTextBox_actions" Grid.Row="8" Padding="10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2"/>-->
+                <Grid Grid.ColumnSpan="2" Grid.Row="8">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                        <RowDefinition Height="auto"/>
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="auto"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label x:Name="S1" Content=" Severity 1: " Grid.Column="0" Grid.Row="0" VerticalAlignment="Center" HorizontalAlignment="Left" Visibility="Collapsed" Margin="10,10,0,10" FontSize="14" FontWeight="Bold"/>
+                    <RichTextBox x:Name="richTextBox_actions1" Grid.Row="0" Padding="0,10,10,10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" IsReadOnly="True" Grid.Column="1" Visibility="Collapsed">
+                        <FlowDocument/>
+                    </RichTextBox>
 
+                    <Label x:Name="S2" Content=" Severity 2: " Grid.Column="0" Grid.Row="1" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed" Margin="10,10,0,10" FontSize="14" FontWeight="Bold"/>
+                    <RichTextBox x:Name="richTextBox_actions2" Grid.Row="1" Padding="0,10,10,10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" IsReadOnly="True" Grid.Column="1" Visibility="Collapsed">
+                        <FlowDocument/>
+                    </RichTextBox>
+                    <Label x:Name="S3" Content=" Severity 3: " Grid.Column="0" Grid.Row="2" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed" Margin="10,10,0,10" FontSize="14" FontWeight="Bold"/>
+                    <RichTextBox x:Name="richTextBox_actions3" Grid.Row="2" Padding="0,10,10,10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" IsReadOnly="True" Grid.Column="1" Visibility="Collapsed">
+                        <FlowDocument/>
+                    </RichTextBox>
+                    <Label x:Name="S4" Content=" Severity 4: " Grid.Column="0" Grid.Row="3" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed" Margin="10,10,0,10" FontSize="14" FontWeight="Bold"/>
+                    <RichTextBox x:Name="richTextBox_actions4" Grid.Row="3" Padding="0,10,10,10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" IsReadOnly="True" Grid.Column="1" Visibility="Collapsed">
+                        <FlowDocument/>
+                    </RichTextBox>
+                    <Label x:Name="S_a" Content=" Addtional Information: " Grid.Column="0" Grid.Row="4" VerticalAlignment="Top" HorizontalAlignment="Left" Visibility="Collapsed" Margin="10,10,0,10" FontSize="14" FontWeight="Bold"/>
+                    <RichTextBox x:Name="richTextBox_actions_a" Grid.Row="4" Padding="0,10,10,10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" IsReadOnly="True" Grid.Column="1" Visibility="Collapsed">
+                        <FlowDocument/>
+                    </RichTextBox>
+                </Grid>
                 <Label x:Name="label_keys" Content="Support Keys &amp; Queue Information" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="9" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2"/>
                 <RichTextBox x:Name="richTextBox_keys" Grid.Row="10" Padding="10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2"/>
 
                 <Label x:Name="label_guidelines" Content="Case Handling Guidelines" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Grid.Row="11" Grid.RowSpan="1" Margin="0" Background="#FF4B385D" Foreground="White" FontSize="16" FontWeight="Light" Grid.Column="0" Grid.ColumnSpan="2" />
                 <RichTextBox x:Name="richTextBox_guidelines" Grid.Row="12" Padding="10" HorizontalAlignment="Stretch" FontSize="14" BorderThickness="0" Grid.Column="0" IsReadOnly="True" Grid.ColumnSpan="2">
-                    
+                    <FlowDocument/>
                 </RichTextBox>
                 
 
