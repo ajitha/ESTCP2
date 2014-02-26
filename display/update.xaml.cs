@@ -21,7 +21,8 @@ using display.Model;
 using System.Xml;
 using System.Windows.Markup;
 using System.Text.RegularExpressions;
-
+using Microsoft.Win32;
+using CustomWPFControls;
 namespace display
 {
     /// <summary>
@@ -34,9 +35,17 @@ namespace display
 
         public ObservableCollection<SupportKey> supportkeys { get; set; }
         public ObservableCollection<CustomerInfo> customerinfos { get; set; }
+        public ObservableCollection<string> holidays { get; set; }
+
 
         public ObservableCollection<ComboBoxItem> regioncbItems { get; set; }
         public ComboBoxItem SelectedRegion { get; set; }
+
+        public int holidayDay { get; set; }
+        public int holidayMonth { get; set; }
+        public int holidayYear { get; set; }
+
+        
 
         OleDbConnection myAccessConn = null;
 
@@ -50,14 +59,18 @@ namespace display
         {
             //svm = new SupportKeyVM ();
 
+
+           
             //new mod
             existingCustIDs = access.GetIDs();
 
             //DataContext = svm.supportkeys;
 
             this.DataContext = this;
+
             supportkeys = new ObservableCollection<SupportKey>();
             customerinfos = new ObservableCollection<CustomerInfo>();
+            holidays = new ObservableCollection<string>();
 
 
 #if USINGPROJECTSYSTEM
@@ -75,6 +88,8 @@ namespace display
             regioncbItems.Add(new ComboBoxItem { Content = "Option 1" });
             regioncbItems.Add(new ComboBoxItem { Content = "Option 2" });
 
+
+            holidayDay = 11;
 
             // combobox_region.Text = "Option 1";
             //combobox_region.SelectedItem = "Option 1";
@@ -254,6 +269,12 @@ namespace display
         {
             List<OleDbCommand> cmdlist = new List<OleDbCommand>();
 
+            if(!String.IsNullOrEmpty(textbox_name.Text)){
+                CustomerInfo custtemp = new CustomerInfo(textbox_name.Text, textbox_desingnation.Text, textbox_email.Text, textbox_workphone.Text, textbox_mobile.Text);
+                customerinfos.Add(custtemp);
+            }
+            
+
 
             foreach (CustomerInfo ci in customerinfos)
             {
@@ -289,6 +310,12 @@ namespace display
         {
             List<OleDbCommand> cmdlist = new List<OleDbCommand>();
 
+            //save non added support key info
+            if (!String.IsNullOrEmpty(textbox_key.Text) )
+            {
+                SupportKey sk = new SupportKey(textbox_key.Text, textbox_description.Text);
+                supportkeys.Add(sk);
+            }
 
             foreach (SupportKey sk in supportkeys)
             {
@@ -587,16 +614,119 @@ namespace display
 
         }
 
+        public bool IsRichTextBoxEmpty( RichTextBox rtb) {
+            var start = rtb.Document.ContentStart;
+            var end = rtb.Document.ContentEnd;
+            int difference = start.GetOffsetToPosition(end);
+
+            if (difference <= 4)
+            {
+                return true;
+            }
+            else {
+                return false;
+            }
+        
+        }
+
+
         private void btnSubmit_Click(object sender, RoutedEventArgs e)
         {
 
 
+            //WPFMessageBoxResult __Result = WPFMessageBox.Show("This options displays a message box with only message. The will be the message box with minimal options!!!");
+
+            if (String.IsNullOrEmpty(textbox_customerid.Text) && String.IsNullOrEmpty(textbox_customername.Text)) {
+                WPFMessageBox.Show("Error", "Error, Customer ID and Customer Name cannot be empty!", WPFMessageBoxButtons.OK, WPFMessageBoxImage.Error);
+                return;
+            }
+            else if (String.IsNullOrEmpty(textbox_customerid.Text))
+            {
+                WPFMessageBox.Show("Error", "Error, Customer ID cannot be empty!", WPFMessageBoxButtons.OK, WPFMessageBoxImage.Error);
+                return;
+            }
+            else if (String.IsNullOrEmpty(textbox_customername.Text))
+            {
+                WPFMessageBox.Show("Error", "Error, Customer Name cannot be empty!", WPFMessageBoxButtons.OK, WPFMessageBoxImage.Error);
+                return;
+            }
+            else {
+                List<string> emptyfields = new List<string> ();
+                if(String.IsNullOrEmpty(textbox_region.Text)) {
+                    emptyfields.Add("Region");
+                    basicinfo_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+                if(String.IsNullOrEmpty(textbox_offset.Text)){
+                    emptyfields.Add("Offset");
+                    basicinfo_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+                if(String.IsNullOrEmpty(textbox_queue.Text)){
+                    emptyfields.Add("Queue");
+                    basicinfo_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+
+                if (holidays.Count == 0) {
+                    emptyfields.Add("Holidays");
+                    holidays_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+
+                if (supportkeys.Count == 0)
+                {
+                    emptyfields.Add("Support keys");
+                    supportkey_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+                if(IsRichTextBoxEmpty(richtext_sevaction1) || IsRichTextBoxEmpty(richtext_sevaction2) || IsRichTextBoxEmpty(richtext_sevaction3) || IsRichTextBoxEmpty(richtext_sevaction4) )
+                {
+                    emptyfields.Add("One or more Severity Actions");
+                    sevactions_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+                if (IsRichTextBoxEmpty(richtextbox_guidelines))
+                {
+                    emptyfields.Add("Case handling guidelines");
+                    casehandling_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+
+                if (customerinfos.Count == 0)
+                {
+                    emptyfields.Add("Contact Information");
+                    contacts_warning.Visibility = System.Windows.Visibility.Visible;
+                }
+
+                string emptys = "";
+                bool firstkeyword = true;
+                foreach (string s in emptyfields) {
+
+                    if (firstkeyword)
+                    {
+                        emptys += s;
+                        firstkeyword = false;
+                    }
+                    else {
+                        emptys = emptys + ", " +s;
+                    }
+                    
+                }
+
+                WPFMessageBoxResult __Result = WPFMessageBox.Show("Warning", emptys +" \nThese fields are missing. Do you wish to Continue?", WPFMessageBoxButtons.YesNoCancel, WPFMessageBoxImage.Alert);
+                if (__Result == WPFMessageBoxResult.Yes)
+                {
+
+                }
+                else {
+                    return;
+                }
+
+            }
+
+
             if (IsCustomerExisting())
             {
-                MessageBoxResult result = MessageBox.Show("User exists in the databse. Would you like to overwrite?", "Error", MessageBoxButton.YesNo);
+                //MessageBoxResult result = MessageBox.Show("User exists in the databse. Would you like to overwrite?", "Error", MessageBoxButton.YesNo);
+
+                WPFMessageBoxResult result = WPFMessageBox.Show("Overwrite?", "User exists in the databse. Would you like to overwrite?", WPFMessageBoxButtons.YesNo, WPFMessageBoxImage.Information);
                 switch (result)
                 {
-                    case MessageBoxResult.Yes:
+                    case WPFMessageBoxResult.Yes:
                         {
                             DeleteCustmerFromdb(textbox_customerid.Text);
 
@@ -604,7 +734,7 @@ namespace display
 
                             break;
                         }
-                    case MessageBoxResult.No:
+                    case WPFMessageBoxResult.No:
                         {
 
                             break;
@@ -949,6 +1079,180 @@ namespace display
                 }
             }
 
+        }
+
+        private void cmdUp_Click(object sender, RoutedEventArgs e)
+        {
+
+            holidayDay = Convert.ToInt32((txtNum.Text));
+            if (holidayDay >= 31)
+            {
+                holidayDay = 1;
+            }
+            else {
+                holidayDay++;
+            }
+            
+
+            txtNum.Text = holidayDay.ToString();
+        }
+
+        private void cmdDown_Click(object sender, RoutedEventArgs e)
+        {
+            holidayDay = Convert.ToInt32((txtNum.Text));
+
+            if (holidayDay <= 0)
+            {
+                holidayDay = 31;
+            }
+            else
+            {
+                holidayDay--;
+            }
+            
+            txtNum.Text = holidayDay.ToString();
+        }
+
+        private void txtNum_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!AreAllValidNumericChars(txtNum.Text)) {
+                txtNum.Text = "1";
+            }
+
+            if (txtNum.Text == "")
+            {
+                txtNum.Text = "1";
+            }
+
+
+            if (Convert.ToInt32(txtNum.Text) < 1 || Convert.ToInt32(txtNum.Text) > 31)
+            {
+                txtNum.Text = "1";
+            }
+        }
+
+        private void monthUp_Click(object sender, RoutedEventArgs e)
+        {
+
+            holidayMonth = Convert.ToInt32((txtMonth.Text));
+            if (holidayMonth == 12)
+            {
+                holidayMonth = 1;
+            }
+            else
+            {
+                holidayMonth++;
+            }
+
+
+            txtMonth.Text = holidayMonth.ToString();
+        }
+
+        private void monthDown_Click(object sender, RoutedEventArgs e)
+        {
+
+            holidayMonth = Convert.ToInt32((txtMonth.Text));
+            if (holidayMonth == 1)
+            {
+                holidayMonth = 12;
+            }
+            else
+            {
+                holidayMonth--;
+            }
+
+
+            txtMonth.Text = holidayMonth.ToString();
+        }
+
+        private void yearUp_Click(object sender, RoutedEventArgs e)
+        {
+            holidayYear = Convert.ToInt32(txtYear.Text);
+            holidayYear++;
+
+
+            txtYear.Text = holidayYear.ToString();
+        }
+
+        private void yearDown_Click(object sender, RoutedEventArgs e)
+        {
+            holidayYear = Convert.ToInt32(txtYear.Text);
+            holidayYear--;
+            
+
+            txtYear.Text = holidayYear.ToString();
+
+        }
+
+        private void txtMonth_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!AreAllValidNumericChars(txtMonth.Text))
+            {
+                txtMonth.Text = "1";
+            }
+
+            if (txtMonth.Text == "")
+            {
+                txtMonth.Text = "1";
+            }
+
+            if (Convert.ToInt32(txtMonth.Text) < 1 || Convert.ToInt32(txtMonth.Text) > 12)
+            {
+                txtMonth.Text = "1";
+            }
+        }
+
+        private void txtYear_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!IsTextAllowed(txtYear.Text))
+            {
+                txtYear.Text = "2000";
+            }
+            if (txtYear.Text == "")
+            {
+                txtYear.Text = "2000";
+            }
+            if (Convert.ToInt32(txtYear.Text) < 0 || Convert.ToInt32(txtYear.Text) > 3000)
+            {
+                txtYear.Text = "2000";
+            }
+        }
+
+        private void button_addholiday_click(object sender, RoutedEventArgs e)
+        {
+            DateTime thisDate1;
+
+            string holiday = txtYear.Text + "-" + txtMonth.Text + "-" + txtNum.Text;
+
+            if (DateTime.TryParse(holiday, out thisDate1))
+            {
+                if (!holidays.Contains(holiday)) {
+                    holidays.Add(holiday);
+                }
+
+                
+                Console.WriteLine("success");
+            }
+            else {
+                MessageBox.Show("Invalid date");
+            }
+
+
+        }
+
+        private void btnDeleteHoliday_Click(object sender, RoutedEventArgs e)
+        {
+            var button = sender as Button;
+            if (button != null)
+            {
+                var skey = button.DataContext as string;
+                //svm.supportkeys.Remove(skey);
+                holidays.Remove(skey);
+            }
+            else
+            {
+                return;
+            }
         }
 
         

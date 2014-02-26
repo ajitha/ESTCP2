@@ -44,6 +44,7 @@
 
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
 
             </Grid.RowDefinitions>
 
@@ -77,6 +78,9 @@
 
 
             <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="4" Content="Basic Information" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+            <Image x:Name="basicinfo_warning" Visibility="Hidden" Source="Resources/warning_yellow.png" Grid.Row="0" Grid.Column="3" HorizontalAlignment="Right"  Height="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,10,0"></Image>
+
+
 
             <Label Grid.Row="2" Grid.Column="0" Content="Customer ID:" />
 
@@ -85,6 +89,7 @@
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
 
                 </Grid.ColumnDefinitions>
 
@@ -92,10 +97,28 @@
                 <Grid Grid.Column="1" Grid.Row="0">
                     <Image x:Name="image_tick" Source="Resources/tick.png" Width="25" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-2,0,2" Visibility="Collapsed" ToolTip="Customer already in database"/>
                 </Grid>
+                <Grid Grid.Column="1" Grid.Row="0">
+                    <Image x:Name="image_err_id" Source="Resources/warning_red.png" Width="25" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-2,0,2" Visibility="Collapsed" ToolTip="Customer already in database"/>
+                </Grid>
             </Grid>
 
             <Label Grid.Row="3" Grid.Column="0" Content="Customer Name:"/>
-            <TextBox x:Name="textbox_customername" Grid.Row="3" Grid.Column="1"  Margin="3" />
+            
+
+            <Grid Grid.Column="1" Grid.Row="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+
+
+                </Grid.ColumnDefinitions>
+
+                <TextBox x:Name="textbox_customername" Grid.Row="0" Grid.Column="0"  Margin="3" />
+                <Grid Grid.Column="1" Grid.Row="0">
+                    <Image x:Name="image_err_name" Source="Resources/warning_red.png" Width="25" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,-2,0,2" Visibility="Collapsed" ToolTip="Customer already in database"/>
+                </Grid>
+            </Grid>
+
 
 
             <Label Grid.Row="4" Grid.Column="0" Content="Supported severities:"/>
@@ -150,24 +173,126 @@
                 <TextBox x:Name="textbox_queue" Grid.Row="1" Grid.Column="2" TextChanged="TextBox_TextChanged" Width="Auto" Margin="3" />
             </Grid>
 
-            <Grid Grid.Row ="4" Grid.Column="3" Grid.RowSpan="2">
-                <StackPanel Orientation="Horizontal">
-                    <TextBox x:Name="txtNum" x:FieldModifier="private"  Width="40" Text="0" TextChanged="txtNum_TextChanged"  />
 
-                    <StackPanel Orientation="Vertical">
-                        <Button x:Name="cmdUp" x:FieldModifier="private"  Content="˄" Width="20" Click="cmdUp_Click" />
-                        <Button x:Name="cmdDown" x:FieldModifier="private"   Content="˅" Width="20" Click="cmdDown_Click" />
+            <Grid Grid.Column="3" Grid.RowSpan="3" Grid.Row="4">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="15"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="10"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <Label x:Name="holiday_label" Content="Holidays" Grid.Row="1" Grid.Column="1" Grid.ColumnSpan="1" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+                <Image x:Name="holidays_warning" Source="Resources/warning_yellow.png" Grid.Row="1" Grid.Column="3" HorizontalAlignment="Right" Visibility="Hidden" Height="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,10,0"></Image>
+
+
+                <Grid Grid.Row ="3" >
+                    <StackPanel Orientation="Horizontal">
+
+                        <TextBox x:Name="txtYear"   Width="60"   Height="22" Text="2013"  VerticalAlignment="Top" Margin="10,0,0,0" TextChanged="txtYear_TextChanged"/>
+
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="yearUp"   Width="20" Click="yearUp_Click" Height="11" >
+                                <Image Source="Resources/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                            <Button x:Name="yearDown"    Width="20" Click="yearDown_Click" Height="11" >
+                                <Image Source="Resources/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                        </StackPanel>
+
+
+                        <TextBox x:Name="txtMonth"   Width="40" Text="12"   Height="22" VerticalAlignment="Top" Margin="10,0,0,0" TextChanged="txtMonth_TextChanged"/>
+
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="monthUp"   Width="20" Click="monthUp_Click" Height="11" >
+                                <Image Source="Resources/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                            <Button x:Name="monthDown"    Width="20" Click="monthDown_Click" Height="11" >
+                                <Image Source="Resources/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                        </StackPanel>
+
+                        
+
+
+                        <TextBox x:Name="txtNum"  Width="40" TextChanged="txtNum_TextChanged"  Height="22" VerticalAlignment="Top"
+                                 Text="30"
+                                 />
+
+                        <StackPanel Orientation="Vertical">
+                            <Button x:Name="cmdUp" x:FieldModifier="private"  Width="20" Click="cmdUp_Click" Height="11" >
+                                <Image Source="Resources/up.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                            <Button x:Name="cmdDown" x:FieldModifier="private"   Width="20" Click="cmdDown_Click" Height="11" >
+                                <Image Source="Resources/down.png" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Button>
+                        </StackPanel>
+
+                        <Button Content="Add Holiday" Margin="10,0,0,0" Click="button_addholiday_click">
+
+                        </Button>
+
+
                     </StackPanel>
 
-                      
-                </StackPanel>
+                </Grid>
+                <ListView x:Name="lstBxTask2"  ItemsSource="{Binding Path=holidays}" BorderBrush="Transparent" Background="Transparent" Grid.Column="0" Grid.Row="4"  ScrollViewer.HorizontalScrollBarVisibility="Disabled"  >
+                    <ListView.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <WrapPanel IsItemsHost="True" Width="{Binding Path=ActualWidth, ElementName=holiday_label}"/>
+                        </ItemsPanelTemplate>
+                    </ListView.ItemsPanel>
+                    <ListView.ItemTemplate>
+
+
+                        <DataTemplate>
+                            <Border BorderBrush="Black" BorderThickness="0.5">
+                                <Grid HorizontalAlignment="Left">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="Auto" />
+                                        <ColumnDefinition Width="Auto"/>
+
+                                    </Grid.ColumnDefinitions>
+
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto"/>
+                                    </Grid.RowDefinitions>
+
+                                    <TextBlock Grid.Column="0" Grid.Row="0" Text="{Binding }"  Height="22" Background="#FFD0D1D7"  Margin="3" Width="80"/>
+                                    <!--<TextBlock Grid.Column="1" Grid.Row="0" Text="{Binding description}" Height="18" Background="White"  Margin="3" Width="50"  />-->
+
+                                    <Button Grid.Column="2" Grid.Row="0" Name="btnDeleteHoliday" Click="btnDeleteHoliday_Click" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" ></Button>
+
+
+                                </Grid>
+
+                            </Border>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+
+
+                
+
 
             </Grid>
 
 
 
 
-                <Grid Grid.Row ="6" Grid.Column="0" Grid.ColumnSpan="2">
+
+
+
+
+
+
+
+
+
+            <Grid Grid.Row ="6" Grid.Column="0" Grid.ColumnSpan="2">
 
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto"/>
@@ -185,8 +310,10 @@
 
 
 
-
-                <Label Content="Support Keys" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+                
+                    <Label Content="Support Keys" Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="3" Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+                <Image x:Name="supportkey_warning" Source="Resources/warning_yellow.png" Grid.Row="0" Grid.Column="3" Visibility="Hidden" Height="20" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                
                 <Label Content="Support Key" Grid.Row="1" Grid.Column="0" Background="#FFD0D1D7" Margin="3" FontWeight="Bold" Width="100"/>
                 <Label Content="Activity Description" Grid.Row="1" Grid.Column="1"   Background="White" Margin="3" FontWeight="Bold"/>
 
@@ -232,17 +359,7 @@
 
                             </Grid>
 
-                            <!--<StackPanel Orientation="Horizontal" VerticalAlignment="Stretch" >
-                                <TextBlock Text="{Binding key}" Width="73" Height="18" Background="#FFD0D1D7"  Margin="3"/>
-                                <TextBlock Text="{Binding description}" Width="500" Height="18" Background="White"  Margin="3"/>
-
-                                <Button Name="btnDelete" Click="btnDelete_Click" Background="Transparent" BorderBrush="Transparent"  Content="X" FontFamily="Simplified Arabic Fixed" FontWeight="6" Width="Auto" HorizontalAlignment="Right">
-                                    -->
-                            <!--<Image Source="Resources/2.png" Width="15" Height="15"/>-->
-                            <!--
-
-                                </Button>
-                            </StackPanel>-->
+                            
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
@@ -253,6 +370,9 @@
 
 
             <Label Grid.Row="8" Grid.Column="0" Grid.ColumnSpan="4" Content="Severity Actions"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+            <Image x:Name="sevactions_warning" Source="Resources/warning_yellow.png" Grid.Row="8" Grid.Column="3" HorizontalAlignment="Right" Visibility="Hidden" Height="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,10,0"></Image>
+
+
 
             <Grid Grid.ColumnSpan="4" Grid.Row="9" >
 
@@ -325,6 +445,8 @@
 
 
             <Label Grid.Row="11" Grid.Column="0" Grid.ColumnSpan="4" Content="Case Handling"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+            <Image x:Name="casehandling_warning" Source="Resources/warning_yellow.png" Grid.Row="11" Grid.Column="3" HorizontalAlignment="Right" Visibility="Hidden" Height="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,10,0"></Image>
+
 
             <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1">
                 <FlowDocument/>
@@ -334,6 +456,7 @@
 
 
             <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
+            <Image x:Name="contacts_warning" Source="Resources/warning_yellow.png" Grid.Row="14" Grid.Column="3" HorizontalAlignment="Right" Visibility="Hidden" Height="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,10,0"></Image>
 
 
             <!--customer contacts enter data-->
@@ -462,7 +585,38 @@
 
 
 
-            <Button Name="btnSubmit" Grid.Column="0" Grid.Row="17"  Click="btnSubmit_Click"   BorderBrush="#FF7777E8"  Content="Add new Customer" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Left" Width="Auto" Height="30"/>
+            <Grid Grid.Column="0" Grid.Row="17">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                
+                <!--<StackPanel x:Name="panel_red"  Orientation="Horizontal" Grid.Column="1" Grid.Row="1" Visibility="Collapsed">
+                    <Image Source="Resources/warning_red.png" Height="20" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                    <Label x:Name="panel_red_label" Content="Customer Name caoont be empt!"></Label>
+                </StackPanel>
+
+                <StackPanel x:Name="panel_yellow" Orientation="Vertical" Grid.Column="1" Grid.Row="2" Visibility="Visible" >
+                <StackPanel  Orientation="Horizontal"  >
+                    <Image Source="Resources/warning_yellow.png" Height="20" RenderOptions.BitmapScalingMode="HighQuality"></Image>
+                    <Label x:Name="panel_yellow_label" Content="Customer Name caoont be empty!"></Label>
+                    
+                </StackPanel>
+                    <Label Content="Do you wish to continue?"></Label>
+                </StackPanel>-->
+                
+
+
+            </Grid>
+            
+            <Button Name="btnSubmit" Grid.Column="0" Grid.Row="18"  Click="btnSubmit_Click"   BorderBrush="#FF7777E8"  Content="Add new Customer" FontFamily="Simplified Arabic Fixed" FontWeight="Thin" HorizontalAlignment="Left" Width="Auto" Height="30"/>
 
 
         </Grid>

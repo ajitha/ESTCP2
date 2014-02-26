@@ -15,7 +15,13 @@ namespace display
         public SupportKey(string key, string description)
         {
             this.key = key;
-            this.description = description;
+            if (String.IsNullOrEmpty(description))
+            {
+                this.description = "";
+            }
+            else {
+                this.description = description;
+            }
         }
 
     }
