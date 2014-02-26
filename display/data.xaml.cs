@@ -41,25 +41,26 @@ namespace display
                 Common.error = false;
                 base.DataContext = customer;
                 InitializeComponent();
-
-
-               
-
-                
-
-                //namesVM names = new namesVM();
-                //atb_id.ItemsSource = names.Names;
-                DispatcherTimer messageTimer = new DispatcherTimer();
-                messageTimer.Tick += (sender, eventArgs) =>
+                if (customer.Offset == -50)
                 {
-                    DateTime time = DateTime.UtcNow.AddHours(Convert.ToDouble(customer.Offset));
-                    label_time.Content = time.ToShortTimeString();
-                    label_date.Content = time.ToString("d", CultureInfo.CreateSpecificCulture("en-GB"));
-                    string status = Status(time, customer.Holidays);
-                    label_stat.Content = status;
-                };
-                messageTimer.Interval = new TimeSpan(0, 0, 1);
-                messageTimer.Start();
+                    //label_region.Visibility = Visibility.Collapsed;
+                    label_time.Content = "N/A";
+                }
+                else
+                {
+                    DispatcherTimer messageTimer = new DispatcherTimer();
+                    messageTimer.Tick += (sender, eventArgs) =>
+                    {
+                        DateTime time = DateTime.UtcNow.AddHours(Convert.ToDouble(customer.Offset));
+                        label_time.Content = time.ToShortTimeString();
+                        label_date.Content = time.ToString("d", CultureInfo.CreateSpecificCulture("en-GB"));
+                        string status = Status(time, customer.Holidays);
+                        label_stat.Content = status;
+                    };
+                    messageTimer.Interval = new TimeSpan(0, 0, 1);
+                    messageTimer.Start();
+                }
+                
 
                 FlowDocument doc = new FlowDocument();
                 doc = Severities(customer.Severities);
@@ -67,33 +68,20 @@ namespace display
                 doc = Support(customer.SuppOrg, customer.Support);
                 this.richTextBox_keys.Document = doc;
                 doc = SevActions(customer.Actions);
-                this.richTextBox_actions.Document = doc;
+                //this.richTextBox_actions.Document = doc;
                 doc = Contacts(customer.Contacts);
                 this.richTextBox_contacts.Document = doc;
 
-                //StringReader sr = new StringReader(customer.Guidelines);
-                //XmlReader reader = XmlReader.Create(sr);
-                //Section sec = (Section)XamlReader.Load(reader);
-                //FlowDocument d = new FlowDocument();
-
-
-
-
-
-                //while (sec.Blocks.Count > 0)
-                //{
-                //    var block = sec.Blocks.FirstBlock;
-                //    sec.Blocks.Remove(block);
-                //    d.Blocks.Add(block);
-                //}
-                //this.richTextBox_guidelines.Document = d;
-                
-
-                //new mod
                 richTextBox_guidelines.IsDocumentEnabled = true;
                 richTextBox_guidelines.AddHandler(Hyperlink.RequestNavigateEvent, new RoutedEventHandler(this.HandleRequestNavigate));
-
-                //richTextBox_guidelines.Inlines.Add(XamlReader.Parse(customer.Guidelines) as Inline);
+                FlowDocument d = new FlowDocument();
+                if (!String.IsNullOrEmpty(customer.Guidelines))
+                {
+                    Richtext(richTextBox_guidelines, customer.Guidelines, null , null);
+                }
+                
+                //richTextBox_guidelines.Document = d;
+                
             }
             
 
@@ -107,21 +95,7 @@ namespace display
                 Process.Start(((RequestNavigateEventArgs)args).Uri.ToString());
         }
 
-        public void Richtext(FlowDocument d, string content, string title)
-        {
-            StringReader sr = new StringReader(content);
-            XmlReader reader = XmlReader.Create(sr);
-            Section sec = (Section)XamlReader.Load(reader);
-            while (sec.Blocks.Count > 0)
-            {
-                var block = sec.Blocks.FirstBlock;
-                sec.Blocks.Remove(block);
-                d.Blocks.Add(new List(new ListItem(new Paragraph(new Run(title)))));
-                d.Blocks.Add(block);
-            }
-        }
-
-        public FlowDocument Severities(List<string> severities)
+         public FlowDocument Severities(List<string> severities)
         {
             FlowDocument doc = new FlowDocument();
             List list = new List();
@@ -140,62 +114,46 @@ namespace display
             doc.Blocks.Add(list);
             return doc;
         }
-        
+
+        public void Richtext(RichTextBox rtb, string content, string title, Label label)
+        {
+            if (!String.IsNullOrEmpty(title))
+            {
+                label.Visibility = Visibility.Visible;
+            }
+            MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(content));
+            //TextRange textRange = new TextRange(d.ContentEnd, d.ContentEnd);
+            rtb.Selection.Load(stream, DataFormats.Rtf);
+            rtb.Visibility = Visibility.Visible;
+
+        }
+
+
         public FlowDocument SevActions(Severity_Action actions)
         {
             FlowDocument doc = new FlowDocument();
-            List list = new List();
-
             if (!String.IsNullOrEmpty(actions.action1))
             {
-                //doc.Blocks.Add(new List(new ListItem(new Paragraph(new Run("Severity 1: ")))));
-                //doc.Blocks.Add(list);
-                //list.ListItems.Add(new ListItem(Richtext(doc, guideline)));
-                Richtext(doc, actions.action1, "Severity 1: ");
-
+               // Richtext(doc, actions.action1, "• Severity 1: ");
+                Richtext(richTextBox_actions1, actions.action1, "Severity 1: ", S1);
             }
             if (!String.IsNullOrEmpty(actions.action2))
             {
-                //doc.Blocks.Add(new List(new ListItem(new Paragraph(new Run("Severity 1: ")))));
-                //doc.Blocks.Add(list);
-                //list.ListItems.Add(new ListItem(Richtext(doc, guideline)));
-                Richtext(doc, actions.action1, "Severity 2: ");
-
+                Richtext(richTextBox_actions2, actions.action2, "Severity 2: ", S2);
             }
-
-            //if (!String.IsNullOrEmpty(actions.action1))
-            //{
-            //   Paragraph  para = new Paragraph(new Run("Severity 1: " + actions.action1));
-            //   list.ListItems.Add(new ListItem(para)); 
-            //   //doc.Blocks.Add(para);
-            //}
-            //if (!String.IsNullOrEmpty(actions.action2))
-            //{
-            //    Paragraph para = new Paragraph(new Run("Severity 2: " + actions.action2));
-            //    list.ListItems.Add(new ListItem(para)); 
-            //    //doc.Blocks.Add(para);
-            //}
             if (!String.IsNullOrEmpty(actions.action3))
             {
-                Paragraph para = new Paragraph(new Run("Severity 3: " + actions.action3));
-                list.ListItems.Add(new ListItem(para));
-                //doc.Blocks.Add(para);
+                Richtext(richTextBox_actions3, actions.action3, "Severity 3: ",S3);
             }
             if (!String.IsNullOrEmpty(actions.action4))
             {
-                Paragraph para = new Paragraph(new Run("Severity 4: " + actions.action4));
-                list.ListItems.Add(new ListItem(para)); 
-                //doc.Blocks.Add(para);
+                Richtext(richTextBox_actions4, actions.action4, "Severity 4: ",S4);
             }
             if (!String.IsNullOrEmpty(actions.additionalInfo))
             {
-                Paragraph para = new Paragraph(new Run("Additional Information: " + actions.additionalInfo));
-                list.ListItems.Add(new ListItem(para)); 
-                //doc.Blocks.Add(para);
+                Richtext(richTextBox_actions_a, actions.additionalInfo, "Additional Information: ", S_a);
             }
-            doc.Blocks.Add(list);
             return doc;
-            
         }
 
         public FlowDocument Support(string suppOrg, List<Support> support)

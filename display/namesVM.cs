@@ -11,12 +11,17 @@ namespace display.ViewModel
     {
         public namesVM()
         {
+            access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB");
             names = access.GetNames();
+
+            access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+
             username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
         }
         private List<string> names;
         private string username;
-        Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB");
+        Access access;
+        //Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=profiles.MDB");
 
         public List<string> Names
         {

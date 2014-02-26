@@ -17,7 +17,6 @@ using System.Windows.Shapes;
 using display.ViewModel;
 using display.Model;
 using System.IO;
-using display.Model;
 using System.Xml;
 using System.Windows.Markup;
 using System.Text.RegularExpressions;
@@ -35,9 +34,12 @@ namespace display
 
         public ObservableCollection<SupportKey> supportkeys { get; set; }
         public ObservableCollection<CustomerInfo> customerinfos { get; set; }
+<<<<<<< HEAD
         public ObservableCollection<string> holidays { get; set; }
 
 
+=======
+>>>>>>> 4d06f45a926c5f51d898b4d15c9cd149ef3646da
         public ObservableCollection<ComboBoxItem> regioncbItems { get; set; }
         public ComboBoxItem SelectedRegion { get; set; }
 
@@ -101,10 +103,19 @@ namespace display
                     SelectedRegion = cbi;
                 }
             }
-
+            access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+            regions = access.GetRegions();
+            List<string> organizations = new List<string>();
+            foreach (var i in regions)
+            {
+                organizations.Add(i[0].ToString());
+            }
             InitializeComponent();
+            this.textbox_region.ItemsSource = organizations;
+
         }
         static Customer customer = new Customer();
+        static List<List<string>> regions;
 
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
@@ -204,7 +215,7 @@ namespace display
             string offset = textbox_offset.Text;
             if (String.IsNullOrEmpty(textbox_offset.Text))
             {
-                offset = "0";
+                offset = "-50";
             }
             cmd.Parameters.AddWithValue("@offset", Convert.ToDecimal(offset));
 
@@ -228,15 +239,6 @@ namespace display
 
             cmd.CommandText = strAccessInsert;
             cmd.Parameters.AddWithValue("@custid", textbox_customerid.Text);
-            //cmd.Parameters.AddWithValue("@guidelines", new TextRange(richtextbox_guidelines.Document.ContentStart, richtextbox_guidelines.Document.ContentEnd).Text);
-
-
-            //TextRange tr = new TextRange(richtextbox_guidelines.Document.ContentStart,
-            //                    richtextbox_guidelines.Document.ContentEnd);
-            //MemoryStream ms = new MemoryStream();
-            //tr.Save(ms, DataFormats.Xaml);
-            //string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
-            //cmd.Parameters.AddWithValue("@guidelines", xamlText);
 
             string xamlText = ConvertToXaml(richtextbox_guidelines);
             cmd.Parameters.AddWithValue("@guidelines", xamlText);
@@ -251,18 +253,27 @@ namespace display
             return cmd;
         }
 
+
         public string ConvertToXaml(RichTextBox rtb)
         {
             TextRange tr = new TextRange(rtb.Document.ContentStart, rtb.Document.ContentEnd);
 
-            
+            var start = rtb.Document.ContentStart;
+            var end = rtb.Document.ContentEnd;
+            int difference = start.GetOffsetToPosition(end);
+            string text = "";
+            if (difference > 4)
+            {
+                MemoryStream ms = new MemoryStream();
+                string x = tr.Text;
+                Console.WriteLine(x);
+                tr.Save(ms, DataFormats.Rtf);
+                text = ASCIIEncoding.Default.GetString(ms.ToArray());
+            }
+            return text;
 
-
-            MemoryStream ms = new MemoryStream();
-            tr.Save(ms, DataFormats.Rtf);
-            string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray()); 
-            return xamlText;
         }
+
 
 
         public List<OleDbCommand> SaveContacts()
@@ -302,9 +313,6 @@ namespace display
 
 
         }
-
-
-
 
         public List<OleDbCommand> SaveSupportKeys()
         {
@@ -350,63 +358,19 @@ namespace display
             cmd.CommandText = strAccessInsert;
             cmd.Parameters.AddWithValue("@custid", textbox_customerid.Text);
 
-            
-            
-            //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
-
-            //TextRange tr = new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd);
-            //MemoryStream ms = new MemoryStream();
-            //tr.Save(ms, DataFormats.Xaml);
-            //string xamlText = ASCIIEncoding.Default.GetString(ms.ToArray());
-            //cmd.Parameters.AddWithValue("@action1", xamlText);
-
-            string xamltxt1 = ConvertToXaml(richtext_sevaction1);
-            cmd.Parameters.AddWithValue("@action1", xamltxt1);
-            
-            //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
-
-            //TextRange tr2 = new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd);
-            //MemoryStream ms2 = new MemoryStream();
-            //tr2.Save(ms2, DataFormats.Xaml);
-            //string xamlText2 = ASCIIEncoding.Default.GetString(ms2.ToArray());
-            //cmd.Parameters.AddWithValue("@action2", xamlText2);
+            string xamlText1 = ConvertToXaml(richtext_sevaction1);
+            cmd.Parameters.AddWithValue("@action1", xamlText1);
 
             string xamlText2 = ConvertToXaml(richtext_sevaction2);
             cmd.Parameters.AddWithValue("@action2", xamlText2);
 
-            //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
-            
-            //TextRange tr3 = new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd);
-            //MemoryStream ms3 = new MemoryStream();
-            //tr3.Save(ms3, DataFormats.Xaml);
-            //string xamlText3 = ASCIIEncoding.Default.GetString(ms3.ToArray());
-            //cmd.Parameters.AddWithValue("@action3", xamlText3);
-
-
             string xamlText3 = ConvertToXaml(richtext_sevaction3);
             cmd.Parameters.AddWithValue("@action3", xamlText3);
 
-
-
-            //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
-            //TextRange tr4 = new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd);
-            //MemoryStream ms4 = new MemoryStream();
-            //tr4.Save(ms4, DataFormats.Xaml);
-            //string xamlText4 = ASCIIEncoding.Default.GetString(ms4.ToArray());
-            //cmd.Parameters.AddWithValue("@action4", xamlText4);
-
-
             string xamlText4 = ConvertToXaml(richtext_sevaction4);
             cmd.Parameters.AddWithValue("@action4", xamlText4);
-            //cmd.Parameters.AddWithValue("@action1", new TextRange(richtext_sevaction1.Document.ContentStart, richtext_sevaction1.Document.ContentEnd).Text);
-            //cmd.Parameters.AddWithValue("@action2", new TextRange(richtext_sevaction2.Document.ContentStart, richtext_sevaction2.Document.ContentEnd).Text);
-            //cmd.Parameters.AddWithValue("@action3", new TextRange(richtext_sevaction3.Document.ContentStart, richtext_sevaction3.Document.ContentEnd).Text);
-            //cmd.Parameters.AddWithValue("@action4", new TextRange(richtext_sevaction4.Document.ContentStart, richtext_sevaction4.Document.ContentEnd).Text);
-
 
             cmd.Connection = myAccessConn;
-
-
             return cmd;
 
 
@@ -768,25 +732,28 @@ namespace display
             {
                 image_tick.Visibility = System.Windows.Visibility.Visible;
                 btnSubmit.Content = "Update";
-                
+
                 CustomerVM cvm = new CustomerVM(textbox_customerid.Text);
 
 
                 textbox_customername.Text = cvm.Customer.customerName;
                 textbox_offset.Text = cvm.Customer.offset.ToString();
-                if (cvm.Support.FirstOrDefault() != null) {
+                if (cvm.Support.FirstOrDefault() != null)
+                {
                     textbox_queue.Text = cvm.Support.FirstOrDefault().queue;
                 }
-                
+
                 textbox_region.Text = cvm.Customer.spptOrganization;
 
 
                 //supported seveirities
                 //ICollection<Supported_Severity> ssList = cvm.Customer.Supported_Severities;
-                foreach(string ss in cvm.Severities){
+                foreach (string ss in cvm.Severities)
+                {
 
-                    switch (ss) { 
-                        case "1" :
+                    switch (ss)
+                    {
+                        case "1":
                             checkbox_sev1.IsChecked = true;
                             break;
                         case "2":
@@ -800,18 +767,19 @@ namespace display
                             break;
                         default:
                             break;
-                    
+
                     }
                 }
 
 
                 //support keys
-                foreach (Support sk in cvm.Support) {
+                foreach (Support sk in cvm.Support)
+                {
                     supportkeys.Add(new SupportKey(sk.supportKey.ToString(), sk.description));
                 }
 
                 //guidelines
-                setRichText(richtextbox_guidelines,cvm.Guidelines);
+                setRichText(richtextbox_guidelines, cvm.Guidelines);
 
 
                 //sev actions
@@ -819,11 +787,12 @@ namespace display
                 setRichText(richtext_sevaction2, cvm.Actions.action2);
                 setRichText(richtext_sevaction3, cvm.Actions.action3);
                 setRichText(richtext_sevaction4, cvm.Actions.action4);
-                
+
                 //contacts
-                foreach (Contact contact in cvm.Contacts) {
+                foreach (Contact contact in cvm.Contacts)
+                {
                     customerinfos.Add(new CustomerInfo(contact.name, contact.designation, contact.email, contact.workPhone, contact.mobile));
-                    
+
                 }
 
 
@@ -845,7 +814,7 @@ namespace display
 
             if (customer != null)
             {
-                
+
                 if (customer.Contacts.Count > 0)
                 {
                     List<string> names = new List<string>();
@@ -931,12 +900,13 @@ namespace display
 
 
 
-        public void ClearAllFields() {
+        public void ClearAllFields()
+        {
             textbox_customername.Text = "";
             textbox_offset.Text = "";
 
             textbox_queue.Text = "";
-            
+
 
             textbox_region.Text = "";
 
@@ -968,31 +938,19 @@ namespace display
 
 
 
-        public void setRichText(RichTextBox rtb, string txt) {
-
-            //StringReader sr = new StringReader(txt);
-            //XmlReader reader = XmlReader.Create(sr);
-            //Section sec = (Section)XamlReader.Load(reader);
-            //FlowDocument d = new FlowDocument();
-
-
-            //while (sec.Blocks.Count > 0)
-            //{
-            //    var block = sec.Blocks.FirstBlock;
-            //    sec.Blocks.Remove(block);
-            //    d.Blocks.Add(block);
-            //}
-            //rtb.Document = d;
-
-
-            MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
-            rtb.Selection.Load(stream, DataFormats.Rtf);
-        
+        public void setRichText(RichTextBox rtb, string txt)
+        {
+            if (!String.IsNullOrEmpty(txt))
+            {
+                MemoryStream stream = new MemoryStream(ASCIIEncoding.Default.GetBytes(txt));
+                rtb.Selection.Load(stream, DataFormats.Rtf);
+            }
+            
         }
 
         private void textbox_key_PreviewTextInput(object sender, TextCompositionEventArgs e)
         {
-//            e.Handled = !IsTextAllowed(e.Text);
+            //            e.Handled = !IsTextAllowed(e.Text);
             e.Handled = !AreAllValidNumericChars(e.Text);
             base.OnPreviewTextInput(e);
 
@@ -1005,8 +963,19 @@ namespace display
                 if (!Char.IsNumber(c)) return false;
             }
 
+
             return true;
         }
+
+        //private bool AreAllValidNumericChars(string str)
+        //{
+        //    foreach (char c in str)
+        //    {
+        //        if (!Char.IsNumber(c)) return false;
+        //    }
+
+        //    return true;
+        //}
 
         private static bool IsTextAllowed(string text)
         {
@@ -1035,7 +1004,7 @@ namespace display
         private void textbox_name_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
         {
             string text = textbox_name.Text;
-            if (!String.IsNullOrEmpty(text)) 
+            if (!String.IsNullOrEmpty(text))
             {
                 var x = customer.Contacts.Where(m => m.name == text).FirstOrDefault();
                 if (x != null)
@@ -1057,7 +1026,8 @@ namespace display
 
         private void textbox_name_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
         {
-            if (!String.IsNullOrEmpty(textbox_name.Text)) {
+            if (!String.IsNullOrEmpty(textbox_name.Text))
+            {
                 string text = textbox_name.Text;
                 if (!String.IsNullOrEmpty(text))
                 {
@@ -1081,6 +1051,7 @@ namespace display
 
         }
 
+<<<<<<< HEAD
         private void cmdUp_Click(object sender, RoutedEventArgs e)
         {
 
@@ -1263,100 +1234,160 @@ namespace display
             
             //public ObservableCollection<SupportKey> supportkeys { get; set; }
             //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
+=======
+>>>>>>> 4d06f45a926c5f51d898b4d15c9cd149ef3646da
 
-            //public update()
+        private void textbox_region_GotKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            //Access access = new Access("Provider=Microsoft.Jet.OLEDB.4.0;Data Source=ESTProfiles.MDB");
+            //List<List<string>> regions = access.GetRegions();
+            // List<string> organizations = new List<string>();
+            //foreach (var i in regions)
             //{
-            //    this.DataContext = this;
-            //    supportkeys = new ObservableCollection<SupportKey>();
-            //    customerinfos = new ObservableCollection<CustomerInfo>();
-
-            //    InitializeComponent();
+            //    organizations.Add(i[0].ToString());
             //}
+            //textbox_region.ItemsSource = organizations;
+        }
 
-
-            //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        private void textbox_region_LostKeyboardFocus(object sender, KeyboardFocusChangedEventArgs e)
+        {
+            //if (textbox_region.Text != null)
             //{
-
-            //}
-
-            //private void btnDelete_Click(object sender, RoutedEventArgs e)
-            //{
-            //    var button = sender as Button;
-            //    if (button != null)
+            //    List<string> list = regions.Find(m => m[0] == textbox_region.Text);
+            //    if (list != null)
             //    {
-            //        var skey = button.DataContext as SupportKey;
-            //        supportkeys.Remove(skey);
-            //    }
-            //    else
-            //    {
-            //        return;
+            //        textbox_offset.Text = list[1];
             //    }
             //}
 
-            //private void Button_Click(object sender, RoutedEventArgs e)
-            //{
-            //}
+        }
 
-            //private void btnAdd_Click(object sender, RoutedEventArgs e)
-            //{
-            //    SupportKey sk = new SupportKey(textbox_key.Text, textbox_description.Text);
+        private void textbox_region_DropDownClosed(object sender, RoutedPropertyChangedEventArgs<bool> e)
+        {
+            if (textbox_region.Text != null)
+            {
+                List<string> list = regions.Find(m => m[0] == textbox_region.Text);
+                if (list != null)
+                {
+                    textbox_offset.Text = list[1];
+                }
+            }
+        }
 
-            //    if (textbox_key.Text != "" && textbox_description.Text != "")
+        private void textbox_region_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            //if (textbox_region.Text != null)
+            //{
+            //    List<string> list = regions.Find(m => m[0] == textbox_region.Text);
+            //    if (list != null)
             //    {
-            //        supportkeys.Add(sk);
-            //        textbox_key.Text = "";
-            //        textbox_description.Text = "";
-
-            //    }
-
-
-            //}
-
-            //private void btnCOntactDelete_Click(object sender, RoutedEventArgs e)
-            //{
-
-            //}
-
-            //private void btnAddContact_Click(object sender, RoutedEventArgs e)
-            //{
-
-
-            //    CustomerInfo custtemp = new CustomerInfo(textbox_name.Text, textbox_desingnation.Text,textbox_email.Text, textbox_workphone.Text , textbox_mobile.Text );
-
-            //    if (textbox_name.Text != "" )
-            //    {
-
-            //        customerinfos.Add(custtemp);
-
-            //        textbox_name.Text = "";
-            //        textbox_desingnation.Text = "";
-            //        textbox_email.Text = "";
-            //        textbox_workphone.Text = "";
-            //        textbox_mobile.Text = "";
-
-
+            //        textbox_offset.Text = list[1];
             //    }
             //}
+        }
 
-            //private void btnContactDelete_Click_1(object sender, RoutedEventArgs e)
-            //{
-            //    var button = sender as Button;
-            //    if (button != null)
-            //    {
-            //        var customerinfotemp = button.DataContext as CustomerInfo;
-            //        customerinfos.Remove(customerinfotemp);
-            //    }
-            //    else
-            //    {
-            //        return;
-            //    }
-            //}
 
-            //private void btnSubmit_Click(object sender, RoutedEventArgs e)
-            //{
+        //var split = text.Split(new char[] { '(' }, 2);
+        //text = split[0];
 
-            //}
-        
+        //textbox_description.Text = customer.Supports.Where(m => m.supportKey == key).SingleOrDefault().description;
+
+        //public ObservableCollection<SupportKey> supportkeys { get; set; }
+        //public ObservableCollection<CustomerInfo> customerinfos { get; set; }
+
+        //public update()
+        //{
+        //    this.DataContext = this;
+        //    supportkeys = new ObservableCollection<SupportKey>();
+        //    customerinfos = new ObservableCollection<CustomerInfo>();
+
+        //    InitializeComponent();
+        //}
+
+
+        //private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        //{
+
+        //}
+
+        //private void btnDelete_Click(object sender, RoutedEventArgs e)
+        //{
+        //    var button = sender as Button;
+        //    if (button != null)
+        //    {
+        //        var skey = button.DataContext as SupportKey;
+        //        supportkeys.Remove(skey);
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
+        //}
+
+        //private void Button_Click(object sender, RoutedEventArgs e)
+        //{
+        //}
+
+        //private void btnAdd_Click(object sender, RoutedEventArgs e)
+        //{
+        //    SupportKey sk = new SupportKey(textbox_key.Text, textbox_description.Text);
+
+        //    if (textbox_key.Text != "" && textbox_description.Text != "")
+        //    {
+        //        supportkeys.Add(sk);
+        //        textbox_key.Text = "";
+        //        textbox_description.Text = "";
+
+        //    }
+
+
+        //}
+
+        //private void btnCOntactDelete_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //}
+
+        //private void btnAddContact_Click(object sender, RoutedEventArgs e)
+        //{
+
+
+        //    CustomerInfo custtemp = new CustomerInfo(textbox_name.Text, textbox_desingnation.Text,textbox_email.Text, textbox_workphone.Text , textbox_mobile.Text );
+
+        //    if (textbox_name.Text != "" )
+        //    {
+
+        //        customerinfos.Add(custtemp);
+
+        //        textbox_name.Text = "";
+        //        textbox_desingnation.Text = "";
+        //        textbox_email.Text = "";
+        //        textbox_workphone.Text = "";
+        //        textbox_mobile.Text = "";
+
+
+        //    }
+        //}
+
+        //private void btnContactDelete_Click_1(object sender, RoutedEventArgs e)
+        //{
+        //    var button = sender as Button;
+        //    if (button != null)
+        //    {
+        //        var customerinfotemp = button.DataContext as CustomerInfo;
+        //        customerinfos.Remove(customerinfotemp);
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
+        //}
+
+        //private void btnSubmit_Click(object sender, RoutedEventArgs e)
+        //{
+
+        //}
+
     }
 
 }

@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              mc:Ignorable="d" 
              xmlns:a="clr-namespace:display"
-             d:DesignHeight="848.5" d:DesignWidth="661.375">
+             d:DesignHeight="848.5" d:DesignWidth="661.375" FocusManager.FocusedElement="{Binding ElementName=textbox_customerid}">
     <!--xmlns:local="clr-namespace:ESTCustomerProfiles">-->
     <ScrollViewer>
         <Grid Background="#f4f4f4" >
@@ -164,7 +164,7 @@
                         <ColumnDefinition Width="90"/>
                         <ColumnDefinition Width="10"/>
                     </Grid.ColumnDefinitions>
-                    <TextBox x:Name="textbox_region" Grid.Column="0" Width="auto" MinWidth="100" Margin="3"/>
+                    <a:AutoCompleteFocusableBox x:Name="textbox_region" Grid.Column="0" Width="auto" MinWidth="100" Margin="3" IsTextCompletionEnabled="True" LostKeyboardFocus="textbox_region_LostKeyboardFocus" GotKeyboardFocus="textbox_region_GotKeyboardFocus" DropDownClosed="textbox_region_DropDownClosed" MouseLeftButtonDown="textbox_region_MouseLeftButtonDown"/>
                     <Label Content="Offset" Grid.Column="1" HorizontalAlignment="Left" VerticalAlignment="Top" Height="26"/>
                     <TextBox x:Name="textbox_offset" Grid.Column="2" Margin="3"/>
 
@@ -173,6 +173,12 @@
                 <TextBox x:Name="textbox_queue" Grid.Row="1" Grid.Column="2" TextChanged="TextBox_TextChanged" Width="Auto" Margin="3" />
             </Grid>
 
+<<<<<<< HEAD
+=======
+            <!--<Grid Grid.Row ="4" Grid.Column="3" Grid.RowSpan="2">
+                <StackPanel Orientation="Horizontal">
+                    <TextBox x:Name="txtNum" x:FieldModifier="private"  Width="40" Text="0" TextChanged="txtNum_TextChanged"  />
+>>>>>>> 4d06f45a926c5f51d898b4d15c9cd149ef3646da
 
             <Grid Grid.Column="3" Grid.RowSpan="3" Grid.Row="4">
                 <Grid.RowDefinitions>
@@ -278,7 +284,7 @@
                 
 
 
-            </Grid>
+            </Grid>-->
 
 
 
@@ -410,10 +416,10 @@
                         <Label Content="Severity 4" Grid.Row="1" Grid.Column="2"/>
 
                         <RichTextBox x:Name="richtext_sevaction1" Grid.Row="0" Grid.Column="1" Height="Auto" Margin="5"  VerticalScrollBarVisibility="Auto">
-                            <FlowDocument/>
+                            <!--<FlowDocument/>-->
                         </RichTextBox>
                         <RichTextBox x:Name="richtext_sevaction2" Grid.Row="0" Grid.Column="3" Height="Auto" Margin="5" VerticalScrollBarVisibility="Auto">
-                            <FlowDocument/>
+                            <!--<FlowDocument/>-->
                             <!--<Paragraph LineHeight="1"/>
                                 <Paragraph LineHeight="1"/>-->
 
@@ -448,11 +454,7 @@
             <Image x:Name="casehandling_warning" Source="Resources/warning_yellow.png" Grid.Row="11" Grid.Column="3" HorizontalAlignment="Right" Visibility="Hidden" Height="20" RenderOptions.BitmapScalingMode="HighQuality" Margin="0,0,10,0"></Image>
 
 
-            <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1">
-                <FlowDocument/>
-                <!--<Paragraph LineHeight="1"/>
-                </FlowDocument>-->
-            </RichTextBox>
+            <RichTextBox x:Name="richtextbox_guidelines" Grid.Column="0" Grid.Row="12" Grid.ColumnSpan="4" Margin="5" MinHeight="50" Block.LineHeight="1"/>
 
 
             <Label Grid.Row="14" Grid.Column="0" Grid.ColumnSpan="4" Content="Customer Contacts"  Foreground="White" FontFamily="Trebuchet MS" FontSize="24" Background="#FF4B385D" />
@@ -514,6 +516,7 @@
 
                 <!--<TextBox x:Name="textbox_name"  Grid.Column="0" Grid.Row="1"></TextBox>
                 <TextBox x:Name="textbox_desingnation"  Grid.Column="2" Grid.Row="1"></TextBox>-->
+                
                 <a:AutoCompleteFocusableBox x:Name="textbox_name" Grid.Column="0" Grid.Row="1" LostKeyboardFocus="textbox_name_LostKeyboardFocus" DropDownClosed="textbox_name_DropDownClosed" />
                 <a:AutoCompleteFocusableBox x:Name="textbox_desingnation" Grid.Column="2" Grid.Row="1"/>
                 <TextBox x:Name="textbox_email"  Grid.Column="4" Grid.Row="1"></TextBox>

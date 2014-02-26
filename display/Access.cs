@@ -59,14 +59,32 @@ namespace display
             }
             return namesList;
         }
+        public List<List<string>> GetRegions()
+        {
+            string query = "select distinct suppOrg, offset from Customer";
+            List<List<string>> items = new List<List<string>>();
+            OleDbCommand command = new OleDbCommand(query, conn);
+            if (conn.State.Equals(ConnectionState.Closed))
+            {
+                conn.Open();
+            }
+            var reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                List<string> entry = new List<string>();
+                entry.Add(reader[0].ToString());
+                entry.Add(reader[1].ToString());
 
-
+                items.Add(entry);
+            }
+            return items;
+        }
+    
         //new mod
         public List<string> GetIDs()
         {
             string query = "select customerId from Customer";
             List<string> IDList = new List<string>();
-            string name;
             OleDbCommand command = new OleDbCommand(query, conn);
             if (conn.State.Equals(ConnectionState.Closed))
             {
@@ -217,6 +235,14 @@ namespace display
 
             return customer;
         }
+
+
+
+
+
+
+       
+       
     }
 
 }
